@@ -21,6 +21,7 @@ const LoadingScreen = ({ navigation }) => {
       {isLoading ? (<>
       <Image source={require('../assets/logo.png')} // Change the path accordingly
         style={styles.logo}/>
+        <Text style={styles.admin}>ADMINISTRATOR</Text>
         </>
       ) : null }
     </View>
@@ -41,6 +42,10 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     marginTop: -260,
   },
+  admin:{
+    fontSize:30,
+    fontWeight:'bold'
+  }
 
 });
 
