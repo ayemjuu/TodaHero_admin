@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, BackHandler, TextInput, TouchableOpacity, Image, Alert, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, Text, StyleSheet, BackHandler, TextInput, TouchableOpacity, Image, Alert, KeyboardAvoidingView, Platform, ActivityIndicator } from 'react-native';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import firebase from 'firebase/compat';
 
@@ -23,10 +23,12 @@ const PassengerScreen = ({ navigation }) => {
     const [usernameError, setUsernameError] = useState('');
 
     const [isContactNumberRegistered, setIsContactNumberRegistered] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
 
     const saveUserDataToFirestore = async (name, contactNumber, address, username) => {
       try {
+        setIsLoading(true);
         const usersCollection = firebase.firestore().collection('Users');
         
         // Check if the contact number is already registered
@@ -35,7 +37,7 @@ const PassengerScreen = ({ navigation }) => {
         if (!querySnapshot.empty) {
           console.log('Contact number already registered');
           setError('Contact number is already registered');
-          
+          setIsLoading(false);
           
           return;
         }
@@ -43,7 +45,8 @@ const PassengerScreen = ({ navigation }) => {
         // If not registered, proceed with adding the user data
         await usersCollection.add({
           name,
-          contactNumber,
+          contactNumber: "+639" + contactNumber,
+          // contactNumber,
           address,
           username,
           registrationTime: firebase.firestore.FieldValue.serverTimestamp(),
@@ -54,7 +57,8 @@ const PassengerScreen = ({ navigation }) => {
        
       } catch (error) {
         console.error('Error saving user data to Firestore:', error);
-        
+      } finally {
+        setIsLoading(false);
       }
     };
     
@@ -114,6 +118,7 @@ const PassengerScreen = ({ navigation }) => {
             return; // Don't navigate if the contact number is already registered
           }
       
+          setIsLoading(true);
           // Call the function when navigating to the registered screen
           await saveUserDataToFirestore(name, contactNumber, address, username);
       
@@ -124,6 +129,8 @@ const PassengerScreen = ({ navigation }) => {
           // Registration failed, handle the error
           console.error('Error during registration:', error);
           // setError('Registration failed'); // Optionally, set an error message
+        } finally {
+          setIsLoading(false);
         }
     };
 	
@@ -196,9 +203,9 @@ const PassengerScreen = ({ navigation }) => {
                 placeholder="+639XX-XXX-XXXX"
                 autoCapitalize="none"
                 autoCorrect={false}
-                value={contactNumber}
+                value={"+639" + contactNumber}  
                 onChangeText={(text) => {
-                    setContactNumber(text);
+                    setContactNumber(text.replace("+639", ""));
                     setContactNumberError('');
                     setIsContactNumberRegistered(false); // Reset the state when the user edits the contact number
                 }}
@@ -255,13 +262,24 @@ const PassengerScreen = ({ navigation }) => {
 
              
             <View style={styles.buttonContainer}>
+
               <TouchableOpacity style={styles.buttonLeft} onPress={goToRegistration}>
                 <Text style={styles.buttonText}>Back</Text>
               </TouchableOpacity>
 
-              <TouchableOpacity style={styles.buttonRight} onPress={goToRegistered}>
+              {/* <TouchableOpacity style={styles.buttonRight} onPress={goToRegistered} disabled={isLoading}>
+                
                 <Text style={styles.buttonText}>Register</Text>
+              </TouchableOpacity> */}
+
+              <TouchableOpacity style={styles.buttonRight} onPress={goToRegistered} disabled={isLoading}>
+                {isLoading ? (
+                  <ActivityIndicator size="small" color="#fff" />
+                ) : (
+                  <Text style={styles.buttonText}>Register</Text>
+                )}
               </TouchableOpacity>
+              
             </View>
 
         </View>

@@ -22,6 +22,7 @@ import DriverScreen from './screens/Admin/Registration/DriverScreen';
 
 import UserDetailsScreen from './screens/Admin/UserDetailsScreen';
 
+import DriverQRScreen from './screens/Admin/Registration/DriverQRScreen';
 
 import { firebase } from './config';
 
@@ -62,8 +63,8 @@ const App = () => {
     <NavigationContainer>
       
       {/* <Stack.Navigator initialRouteName="Login"> */}
-      <Stack.Navigator initialRouteName="Loading" options={{ headerShown: false }}>
-      {/* <Stack.Navigator initialRouteName="Admin" options={{ headerShown: false }}> */}
+       {/* <Stack.Navigator initialRouteName="Loading" options={{ headerShown: false }}> */}
+       <Stack.Navigator initialRouteName="Admin" options={{ headerShown: false }}> 
        
         <Stack.Screen name="Admin" component={AdminScreen} options={{headerShown: false}}/>
         <Stack.Screen name="TODA Drivers" component={TodaDriverScreen} />
@@ -86,6 +87,8 @@ const App = () => {
        
         <Stack.Screen name="PassengerScreenRegistered" component={PassengerScreenRegistered} options={{headerShown: false}}/>
         <Stack.Screen name="Driver" component={DriverScreen} />
+
+        <Stack.Screen name="DriverQR" component={DriverQRScreen} />
 
         
         

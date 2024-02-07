@@ -15,13 +15,21 @@ const firebaseConfig = {
 
 
     //ETO NAMAN IS SA MAY KAIJUUUUU10@GMAIL.COM
-    apiKey: "AIzaSyAsg1oW1wpZXUcZo0UcFZ57qYWBAJHfasY",
-    authDomain: "todahero-4e7c0.firebaseapp.com",
-    projectId: "todahero-4e7c0",
-    storageBucket: "todahero-4e7c0.appspot.com",
-    messagingSenderId: "617421997910",
-    appId: "1:617421997910:web:aca4e6fc791b36393d38f7",
-    measurementId: "G-B2P699P8YS"
+    // apiKey: "AIzaSyAsg1oW1wpZXUcZo0UcFZ57qYWBAJHfasY",
+    // authDomain: "todahero-4e7c0.firebaseapp.com",
+    // projectId: "todahero-4e7c0",
+    // storageBucket: "todahero-4e7c0.appspot.com",
+    // messagingSenderId: "617421997910",
+    // appId: "1:617421997910:web:aca4e6fc791b36393d38f7",
+    // measurementId: "G-B2P699P8YS"
+
+    apiKey: "AIzaSyDjBboCs4iqBnogiInGpHcVvCEDBGokiLU",
+    authDomain: "thero-28f02.firebaseapp.com",
+    projectId: "thero-28f02",
+    storageBucket: "thero-28f02.appspot.com",
+    messagingSenderId: "394557839181",
+    appId: "1:394557839181:web:53a1bf1d15264d3ab74904",
+    measurementId: "G-MB5NB4LDS3"
 
 };
 
