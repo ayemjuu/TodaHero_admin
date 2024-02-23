@@ -24,6 +24,7 @@ const PassengerScreen = ({ navigation }) => {
 
     const [isContactNumberRegistered, setIsContactNumberRegistered] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const isFormEmpty = !name.trim() || !contactNumber.trim() || !address.trim() || !username.trim();
 
 
     const saveUserDataToFirestore = async (name, contactNumber, address, username) => {
@@ -70,69 +71,124 @@ const PassengerScreen = ({ navigation }) => {
    };
 
 
+   const goToRegistered = async () => {
+    if (!name || !contactNumber || !address || !username) {
+        // Handle empty fields
+        if (!name) {
+            setNameError('Must be filled');
+        }
+        if (!contactNumber) {
+            setContactNumberError('Must be filled');
+        }
+        if (!address) {
+            setAddressError('Must be filled');
+        }
+        if (!username) {
+            setUsernameError('Must be filled');
+        }
+        return;
+    }
 
-    const goToRegistered = async () => {
-      
-      if (!name || !contactNumber || !address || !username ) {
-          if (!name) {
-              setNameError('Must be filled');
-          }
-          if (!contactNumber) {
-              setContactNumberError('Must be filled');
-          }
-          if (!address) {
-              setAddressError('Must be filled');
-          }
-          if (!username) {
-              setUsernameError('Must be filled');
-          }
-          return;
-      }
+    // Reset the error state
+    setNameError('');
+    setContactNumberError('');
+    setAddressError('');
+    setUsernameError('');
+    setError('');
 
+    try {
+        // Check if the contact number is already registered
+        const usersCollection = firebase.firestore().collection('Users');
+        const querySnapshot = await usersCollection.where('contactNumber', '==', "+639" + contactNumber).get();
 
-        // Reset the error state
-        setNameError('');
-        setContactNumberError('');
-        setAddressError('');
-        setUsernameError('');
-        setError('');
-
-       
-
-        // Call the function when navigating to registered screen
-   
-
-        // saveUserDataToFirestore(name, contactNumber, address, username);
-        // console.log('Registered!');
-        // navigation.navigate('PassengerScreenRegistered');
-
-        try {
-          // Check if the contact number is already registered
-          const usersCollection = firebase.firestore().collection('Users');
-          const querySnapshot = await usersCollection.where('contactNumber', '==', contactNumber).get();
-      
-          if (!querySnapshot.empty) {
+        if (!querySnapshot.empty) {
             console.log('Contact number already registered');
             setError('Contact number is already registered');
             setIsContactNumberRegistered(true);
             return; // Don't navigate if the contact number is already registered
-          }
-      
-          setIsLoading(true);
-          // Call the function when navigating to the registered screen
-          await saveUserDataToFirestore(name, contactNumber, address, username);
-      
-          // Registration success
-          console.log('Registered!');
-          navigation.navigate('PassengerScreenRegistered');
-        } catch (error) {
-          // Registration failed, handle the error
-          console.error('Error during registration:', error);
-          // setError('Registration failed'); // Optionally, set an error message
-        } finally {
-          setIsLoading(false);
         }
-    };
+
+        setIsLoading(true);
+        // Call the function when navigating to the registered screen
+        await saveUserDataToFirestore(name, contactNumber, address, username);
+
+        // Registration success
+        console.log('Registered!');
+        navigation.navigate('PassengerScreenRegistered');
+    } catch (error) {
+        // Registration failed, handle the error
+        console.error('Error during registration:', error);
+        // setError('Registration failed'); // Optionally, set an error message
+    } finally {
+        setIsLoading(false);
+    }
+};
+
+
+
+
+    // const goToRegistered = async () => {
+      
+    //   if (!name || !contactNumber || !address || !username ) {
+    //       if (!name) {
+    //           setNameError('Must be filled');
+    //       }
+    //       if (!contactNumber) {
+    //           setContactNumberError('Must be filled');
+    //       }
+    //       if (!address) {
+    //           setAddressError('Must be filled');
+    //       }
+    //       if (!username) {
+    //           setUsernameError('Must be filled');
+    //       }
+    //       return;
+    //   }
+
+
+    //     // Reset the error state
+    //     setNameError('');
+    //     setContactNumberError('');
+    //     setAddressError('');
+    //     setUsernameError('');
+    //     setError('');
+
+       
+
+    //     // Call the function when navigating to registered screen
+   
+
+    //     // saveUserDataToFirestore(name, contactNumber, address, username);
+    //     // console.log('Registered!');
+    //     // navigation.navigate('PassengerScreenRegistered');
+
+    //     try {
+    //       // Check if the contact number is already registered
+    //       const usersCollection = firebase.firestore().collection('Users');
+    //       const querySnapshot = await usersCollection.where('contactNumber', '==', contactNumber).get();
+      
+    //       if (!querySnapshot.empty) {
+    //         console.log('Contact number already registered');
+    //         setError('Contact number is already registered');
+    //         setIsContactNumberRegistered(true);
+    //         return; // Don't navigate if the contact number is already registered
+    //       }
+      
+    //       setIsLoading(true);
+    //       // Call the function when navigating to the registered screen
+    //       await saveUserDataToFirestore(name, contactNumber, address, username);
+      
+    //       // Registration success
+    //       console.log('Registered!');
+    //       navigation.navigate('PassengerScreenRegistered');
+    //     } catch (error) {
+    //       // Registration failed, handle the error
+    //       console.error('Error during registration:', error);
+    //       // setError('Registration failed'); // Optionally, set an error message
+    //     } finally {
+    //       setIsLoading(false);
+    //     }
+    // };
 	
      useFocusEffect(
         React.useCallback(() => {
@@ -214,7 +270,7 @@ const PassengerScreen = ({ navigation }) => {
             />
             <View style={styles.errorTextContainer}>
               {/* {isContactNumberRegistered && <Text style={styles.errorText}>Already registered</Text>} */}
-              {/* {contactNumberError && <Text style={styles.errorText}>{contactNumberError}</Text>} */}
+              {contactNumberError && <Text style={styles.errorText}>{contactNumberError}</Text>}
             </View>
             {/* {isContactNumberRegistered && <Text style={styles.errorContact}>Contact number is already registered</Text>} */}
             {/* {contactNumberError && <Text style={styles.errorText}>{contactNumberError}</Text>} */}
@@ -263,18 +319,18 @@ const PassengerScreen = ({ navigation }) => {
              
             <View style={styles.buttonContainer}>
 
-              <TouchableOpacity style={styles.buttonLeft} onPress={goToRegistration}>
+              {/* <TouchableOpacity style={styles.buttonLeft} onPress={goToRegistration}>
                 <Text style={styles.buttonText}>Back</Text>
-              </TouchableOpacity>
+              </TouchableOpacity> */}
 
               {/* <TouchableOpacity style={styles.buttonRight} onPress={goToRegistered} disabled={isLoading}>
                 
                 <Text style={styles.buttonText}>Register</Text>
               </TouchableOpacity> */}
 
-              <TouchableOpacity style={styles.buttonRight} onPress={goToRegistered} disabled={isLoading}>
+              <TouchableOpacity style={styles.buttonRight} onPress={goToRegistered} disabled={isLoading || isFormEmpty}>
                 {isLoading ? (
-                  <ActivityIndicator size="small" color="#fff" />
+                  <ActivityIndicator size="small" color="#0000ff" />
                 ) : (
                   <Text style={styles.buttonText}>Register</Text>
                 )}
@@ -366,10 +422,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   buttonRight: {
-    backgroundColor: '#A0E9FF',
+    // backgroundColor: '#A0E9FF',
+    backgroundColor: '#ffd702',
     padding: 10,
     borderRadius: 50,
-    borderWidth: 1,
+    borderWidth: 0,
     height: 40,
    flex: 1,
     marginLeft: 8,

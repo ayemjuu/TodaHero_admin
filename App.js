@@ -24,7 +24,18 @@ import UserDetailsScreen from './screens/Admin/UserDetailsScreen';
 
 import DriverQRScreen from './screens/Admin/Registration/DriverQRScreen';
 
+import QRCodeScreen from './screens/Admin/QRCodeScreen';
+
+import TodaDriverDetailsScreen from './screens/Admin/TodadriverDetailScreen';
+
+import PasswordResetScreen from './screens/PasswordResetScreen';
+
 import { firebase } from './config';
+import UserHistoryScreen from './screens/Admin/UserHistoryScree';
+import UserHistoryDetailScreen from './screens/Admin/UserHistoryDetailScreen';
+import DriverHistoryScreen from './screens/Admin/DriverHistoryScreen';
+import DriverHistoryDetailScreen from './screens/Admin/DriverHistoryDetailScreen';
+import ReportDetailScreen from './screens/Admin/ReportScreenDetails';
 
 
 
@@ -67,12 +78,13 @@ const App = () => {
        <Stack.Navigator initialRouteName="Admin" options={{ headerShown: false }}> 
        
         <Stack.Screen name="Admin" component={AdminScreen} options={{headerShown: false}}/>
-        <Stack.Screen name="TODA Drivers" component={TodaDriverScreen} />
+        <Stack.Screen name="TODA Drivers" component={TodaDriverScreen} options={{headerShown: false}} />
+        <Stack.Screen name="TODA Drivers Details" component={TodaDriverDetailsScreen} options={{headerShown: false}} />
         <Stack.Screen name="User" component={UserScreen}  options={{headerShown: false}}/>
         <Stack.Screen name="UserDetails" component={UserDetailsScreen} options={{headerShown: false}}/>
 
-        <Stack.Screen name="Registration" component={RegistrationScreen} options={{headerShadowVisible: false,
-          headerTitle: () => null, 
+        <Stack.Screen name="Registration" component={RegistrationScreen} options={{headerShown: false,
+          // headerTitle: () => null, 
           // TO REMOVE THE HEADER TEXTS
 
         }} />
@@ -86,12 +98,22 @@ const App = () => {
         <Stack.Screen name="PassengerScreen" component={PassengerScreen} options={{headerShown: false}}/>
        
         <Stack.Screen name="PassengerScreenRegistered" component={PassengerScreenRegistered} options={{headerShown: false}}/>
-        <Stack.Screen name="Driver" component={DriverScreen} />
+        <Stack.Screen name="Driver" component={DriverScreen} options={{headerShown: false}}/>
 
-        <Stack.Screen name="DriverQR" component={DriverQRScreen} />
+        <Stack.Screen name="DriverQR" component={DriverQRScreen} options={{headerShown: false}}/>
+        <Stack.Screen name="QRCode" component={QRCodeScreen}options={{headerShown: false}} />
+
+        <Stack.Screen name="PasswordReset" component={PasswordResetScreen}options={{headerShown: false}} />
 
         
+        <Stack.Screen name="UserHistoryScreen" component={UserHistoryScreen}options={{headerShown: false}} />
+        <Stack.Screen name="UserHistoryDetailScreen" component={UserHistoryDetailScreen}options={{headerShown: false}} />
         
+        <Stack.Screen name="DriverHistoryScreen" component={DriverHistoryScreen}options={{headerShown: false}} />
+        <Stack.Screen name="DriverHistoryDetailScreen" component={DriverHistoryDetailScreen}options={{headerShown: false}} />
+
+        <Stack.Screen name="ReportScreenDetails" component={ReportDetailScreen}options={{headerShown: false}} />
+
 
         
       </Stack.Navigator>

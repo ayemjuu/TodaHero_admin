@@ -108,7 +108,7 @@ const AdminScreen = ({ navigation}) => {
         style={styles.logo}
       />
        <Image
-        source={require('../assets/admin.png')} // Change the path accordingly
+        source={require('../assets/tricycle.png')} // Change the path accordingly
         style={styles.adminlogo}
       />
       <Text style={styles.admin}>
@@ -186,11 +186,11 @@ const styles = StyleSheet.create({
 
   button: {
     // flex: 1,
-    backgroundColor: 'pink',
+    backgroundColor: '#ffd702',
     padding: 10,
     borderRadius: 50,
     marginRight: 8,
-    borderWidth: 1,
+    // borderWidth: 1,
     marginBottom: 15,
     // justifyContent: 'center',
     alignItems: 'center',

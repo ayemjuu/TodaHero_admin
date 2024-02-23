@@ -46,19 +46,25 @@ const RegistrationScreen = () => {
     <View style={styles.container}>
       <Image source={require('../../assets/logo.png')} style={styles.logo}/>
 
-      <Text style={styles.title}>Registration For?</Text>
+      <Text style={styles.title}>REGISTRATION</Text>
       <View style={styles.buttonContainer}>
         <TouchableOpacity style={styles.button} onPress={goToDriver}>
+          {/* <Text style={styles.buttonText}>Drivers</Text> */}
+          <Image source={require('../../assets/tricycle.png')} style={styles.buttonImage} />
           <Text style={styles.buttonText}>Drivers</Text>
+
         </TouchableOpacity> 
       </View>
     
-      <Text style={styles.or}>Or</Text>
+      {/* <Text style={styles.or}>Or</Text> */}
       
 
       <View style={styles.buttonContainer}>
         <TouchableOpacity style={styles.button} onPress={goToPassenger}>
+          {/* <Text style={styles.buttonText}>Passengers</Text> */}
+          <Image source={require('../../assets/user.png')} style={styles.buttonImage} />
           <Text style={styles.buttonText}>Passengers</Text>
+
         </TouchableOpacity>
 
 
@@ -74,15 +80,15 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'white',
-    padding: 40,
+    backgroundColor: '#ffff',
+    padding: 20,
   },
 
   logo: {
-    width: 210, // Adjust width as needed
-    height: 210, // Adjust height as needed
-    marginBottom: 100,
-    marginTop: -270,
+    width: 160,
+    height: 160,
+    marginBottom: 120,
+    marginTop:-140,
   },
 
   title: {
@@ -100,23 +106,29 @@ const styles = StyleSheet.create({
   buttonContainer: {
     // flexDirection: 'row',
     // justifyContent: 'space-between',
-    width: '100%',
+    // width: '100%',
    
   },
 
   button: {
     // flex: 1,
-    backgroundColor: 'pink',
+    backgroundColor: '#ffd702',
     padding: 10,
     borderRadius: 50,
     marginRight: 8,
-    borderWidth: 1,
-    height: 50,
+    marginBottom:20,
+    borderWidth: 0,
+    height: 140,
+    width:190,
     alignItems: 'center',
     justifyContent: 'center',
     
     
   },
+  buttonImage: {
+    width:40,
+    height:40
+  }
 });
 
 export default RegistrationScreen;

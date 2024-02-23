@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, BackHandler, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, BackHandler, TouchableOpacity, Image } from 'react-native';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 
 const PassengerScreenRegistered = () => {
@@ -38,6 +38,8 @@ const navigation = useNavigation();
 
   return (
     <View style={styles.container}>
+
+<Image source={require('../../../assets/logoo.png')} style={styles.logo}/>
      <Text style={styles.header}>PASSENGER REGISTERED!</Text>
       
 
@@ -58,7 +60,7 @@ const styles = StyleSheet.create({
 
   button: {
     // flex: 1,
-    backgroundColor: 'pink',
+    backgroundColor: '#ffd702',
     padding: 10,
     borderRadius: 50,
     marginRight: 8,
@@ -74,10 +76,18 @@ const styles = StyleSheet.create({
   },
 
   header: {
-    fontSize: 20,
+    fontSize: 25,
     fontWeight: 'bold',
     marginBottom: 40,
     marginTop: -50,
+  },
+
+  logo: {
+    width: 210, // Adjust width as needed
+    height: 210, // Adjust height as needed
+    marginBottom: 200,
+    marginTop: -300,
+    
   },
 });
 

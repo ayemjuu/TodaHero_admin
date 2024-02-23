@@ -1,9 +1,11 @@
 import React, {useState, useEffect} from 'react';
-import { View, Text, StyleSheet, Button, TextInput, TouchableOpacity, BackHandler, Alert } from 'react-native';
+import { View, Text, StyleSheet, Button, TextInput, TouchableOpacity, BackHandler, Alert, ActivityIndicator  } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import { Image } from 'react-native';
 import { firebase } from '../config';
+
+import PasswordResetScreen from './PasswordResetScreen';
 //import auth from '@react-native-firebase/auth';
 
 //GOODJOB BOI! 12/20/23
@@ -34,6 +36,7 @@ const LoginScreen = ({navigation}) => {
 
   const [inputError, setInputError] = useState({ username: false, password: false });
   const [errorMessage, setErrorMessage] = useState('');
+  const [loading, setLoading] = useState(false); // Add loading state
 
 //Newcode here..
   // BALEK loginUser = async (username, password) => {
@@ -49,6 +52,7 @@ const LoginScreen = ({navigation}) => {
       }
     
     try {
+      setLoading(true); // Set loading to true when attempting login
       await firebase.auth().signInWithEmailAndPassword(username, password);
       setUsername('');
       setPassword('');
@@ -67,6 +71,8 @@ const LoginScreen = ({navigation}) => {
       // } else {
       //   setErrorMessage('Incorrect Password');
       // }
+    }  finally {
+      setLoading(false); // Set loading to false after login attempt completes
     }
  };
 
@@ -90,10 +96,15 @@ const LoginScreen = ({navigation}) => {
     navigation.navigate('Admin');
   };
 
+  const handleForgotPassword = () => {
+    navigation.navigate('PasswordReset');
+  };
+  
 
 
 
 
+  
 
 
   return (
@@ -102,7 +113,7 @@ const LoginScreen = ({navigation}) => {
     <View style={styles.container}>
 
       <Image
-        source={require('../assets/logo.png')} // Change the path accordingly
+        source={require('../assets/logoo.png')} // Change the path accordingly
         style={styles.logo}
       />
       <Text style={styles.title}>ADMINISTRATOR LOGIN</Text>
@@ -139,8 +150,12 @@ const LoginScreen = ({navigation}) => {
 
       <View style={styles.buttonContainer}>
         {/*BALEK <TouchableOpacity style={styles.button} onPress={() => loginUser(username, password)}> */}
-        <TouchableOpacity style={styles.button} onPress={handleLogin}>
+        <TouchableOpacity style={styles.button} onPress={handleLogin} disabled={loading}>
+        {loading ? (
+          <ActivityIndicator size="small" color="black" />
+        ) : (
           <Text style={styles.buttonText}>Login</Text>
+          )}
         </TouchableOpacity>
 
 
@@ -151,6 +166,10 @@ const LoginScreen = ({navigation}) => {
 
       {/* <Button title="Login" onPress={goToAdmin} /> */}
 
+
+      <Text style={styles.forgotPasswordText} onPress={handleForgotPassword}>
+        Forgot Password?
+      </Text>
       
     </View>
     /* </KeyboardAvoidingView> */
@@ -163,7 +182,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 40,
+    // backgroundColor: '#ffd702',
     backgroundColor: 'white',
+
     marginTop: -750,
     
   },
@@ -182,10 +203,11 @@ const styles = StyleSheet.create({
   input: {
     height: 50,
     width: '100%',
-    borderColor: 'gray',
+    borderColor: 'black',
     borderWidth: 1,
     marginBottom: 16,
-    paddingLeft: 8,
+    paddingLeft: 14,
+    paddingRight: 14,
     borderRadius: 50,
   },
  
@@ -193,7 +215,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 16,
-    borderColor: 'gray',
+    borderColor: 'black',
     borderWidth: 1,
     borderRadius: 5,
     overflow: 'hidden',
@@ -203,7 +225,8 @@ const styles = StyleSheet.create({
   passwordInput: {
     height: 40,
     flex: 1,
-    paddingLeft: 8,
+    paddingLeft: 14,
+    paddingRight: 14,
   },
   toggleButton: {
     padding: 10,
@@ -219,11 +242,11 @@ const styles = StyleSheet.create({
 
   button: {
     flex: 1,
-    backgroundColor: 'pink',
+    backgroundColor: '#ffd702',
     padding: 10,
     borderRadius: 50,
     marginRight: 8,
-    borderWidth: 1,
+    borderWidth: 0,
     height: 50,
     alignItems: 'center',
     justifyContent: 'center',
@@ -253,6 +276,12 @@ const styles = StyleSheet.create({
   errorMessage: {
     color: 'red',
     marginBottom: 10,
+  },
+
+  forgotPasswordText: {
+    color: 'blue',
+    textDecorationLine: 'underline',
+    marginTop: 10,
   },
 
 });
