@@ -156,13 +156,29 @@
 
 
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, ActivityIndicator, Image } from 'react-native';
+import { View, Text, StyleSheet, ActivityIndicator, Image, BackHandler  } from 'react-native';
 import firebase from 'firebase/compat';
+import { useNavigation } from '@react-navigation/native';
 
 const ReportDetailScreen = ({ route }) => {
   const { id } = route.params;
   const [report, setReport] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    const backAction = () => {
+      navigation.goBack();
+      return true; // Prevent default behavior
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction
+    );
+
+    return () => backHandler.remove();
+  }, [navigation]);
 
   useEffect(() => {
     const fetchReportDetails = async () => {
@@ -198,11 +214,12 @@ const ReportDetailScreen = ({ route }) => {
           </View>
         ) : (
           <>
-            <Text>Report For: {report?.driverName} ({report?.driverPlateNumber})</Text>
+            <Text>Report For: {report?.reported}</Text>
             <View style={styles.reportContainer}>
               <Text>Report: {report?.report}</Text>
             </View>
-            <Text>Reported By: {report?.reporterName}</Text>
+            <Text>Reported By: {report?.reportedBy}</Text>
+            <Text>Time Reported: {report?.timeReported.toDate().toLocaleString()}</Text>
           </>
         )}
         

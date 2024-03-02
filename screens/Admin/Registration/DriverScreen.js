@@ -223,7 +223,7 @@ const RegistrationForm = () => {
         onChangeText={setName}
         placeholder="Enter your name"
       />
-      <Text style={styles.label}>Contact Number:</Text>
+      {/* <Text style={styles.label}>Contact Number:</Text>
       <TextInput
         style={styles.input}
         value={contactNumber}
@@ -231,7 +231,18 @@ const RegistrationForm = () => {
         placeholder="Enter your contact number"
         keyboardType="phone-pad"
         maxLength={13}
-      />
+      /> */}
+
+<Text style={styles.label}>Contact Number:</Text>
+<TextInput
+  style={styles.input}
+  value={contactNumber.startsWith("+639") ? contactNumber : "+639" + contactNumber}
+  onChangeText={setContactNumber}
+  placeholder="Enter your contact number"
+  keyboardType="phone-pad"
+  maxLength={13}
+/>
+
       <Text style={styles.label}>Address:</Text>
       <TextInput
         style={styles.input}

@@ -158,7 +158,7 @@
 
 
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Image } from 'react-native';
 import { firebase } from '../../config'; 
 
 const DriverHistoryDetailScreen = ({ route }) => {
@@ -196,6 +196,7 @@ const DriverHistoryDetailScreen = ({ route }) => {
 
   return (
     <View style={styles.container}>
+         <Image source={require('../../assets/logoo.png')} style={styles.logo}/>
       <Text style={styles.title}>Driver History Detail</Text>
       <View style={styles.detailContainer}>
         {itemData && (
@@ -206,11 +207,11 @@ const DriverHistoryDetailScreen = ({ route }) => {
             <Text style={styles.texts}>Pickup Point: {itemData.pickupPoint}</Text>
             <Text style={styles.texts}>Drop-off Point: {itemData.dropOffPoint}</Text>
             <Text style={styles.texts}>Requested By: {itemData.requestBy}</Text>
-            <Text style={styles.texts}>Requested By Contact Number: {itemData.requestByContactNumber}</Text>
+            {/* <Text style={styles.texts}>Requested By Contact Number: {itemData.requestByContactNumber}</Text> */}
             <Text style={styles.texts}>Ride Ended: {formatDate(itemData.rideEnded)}</Text>
             {/* <Text>Successful: {itemData.successful ? 'Yes' : 'No'}</Text> */}
-            <Text style={styles.texts}>Time Accepted: {formatDate(itemData.timeAccepted)}</Text>
-            <Text style={styles.texts}>Time Requested: {itemData.timeRequested}</Text>
+            {/* <Text style={styles.texts}>Time Accepted: {formatDate(itemData.timeAccepted)}</Text> */}
+            {/* <Text style={styles.texts}>Time Requested: {itemData.timeRequested}</Text> */}
             {/* Add more fields as needed */}
           </View>
         )}
@@ -235,14 +236,21 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#ccc',
     borderRadius: 5,
-    padding: 10,
+    padding: 30,
     width: '80%',
     backgroundColor:'#ffd702',
     height:500,
     width:300,
   },
   texts:{
-    fontSize:18
+    fontSize:18,
+    marginBottom:10,
+  },
+  logo: {
+    width: 210,
+    height: 210,
+    marginBottom: 10,
+    marginTop: -80,
   },
 });
 

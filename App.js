@@ -74,8 +74,8 @@ const App = () => {
     <NavigationContainer>
       
       {/* <Stack.Navigator initialRouteName="Login"> */}
-       {/* <Stack.Navigator initialRouteName="Loading" options={{ headerShown: false }}> */}
-       <Stack.Navigator initialRouteName="Admin" options={{ headerShown: false }}> 
+       <Stack.Navigator initialRouteName="Loading" options={{ headerShown: false }}>
+       {/* <Stack.Navigator initialRouteName="Admin" options={{ headerShown: false }}>  */}
        
         <Stack.Screen name="Admin" component={AdminScreen} options={{headerShown: false}}/>
         <Stack.Screen name="TODA Drivers" component={TodaDriverScreen} options={{headerShown: false}} />

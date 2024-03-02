@@ -240,7 +240,7 @@
 
 
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, ScrollView, Image, TouchableOpacity, ActivityIndicator } from 'react-native'; // Import ScrollView
+import { View, Text, StyleSheet, ScrollView, Image, TouchableOpacity, ActivityIndicator, BackHandler  } from 'react-native'; // Import ScrollView
 import { firebase } from '../../config'; // Import your Firebase config
 import { useNavigation } from '@react-navigation/native';
 
@@ -280,6 +280,20 @@ const UserHistoryScreen = ({ route }) => {
     // Navigate to UserHistoryDetailScreen and pass the item id
     navigation.navigate('UserHistoryDetailScreen', { itemId });
   };
+
+  useEffect(() => {
+    const backAction = () => {
+      navigation.goBack();
+      return true; // Prevent default behavior
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction
+    );
+
+    return () => backHandler.remove();
+  }, [navigation]);
 
   return (
     <View style={styles.container}>

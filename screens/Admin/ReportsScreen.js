@@ -195,6 +195,243 @@
 
 
 
+// //gumagana
+// import React, { useState, useEffect } from 'react';
+// import { View, Text, StyleSheet, BackHandler, Image, TextInput, ScrollView, TouchableOpacity, ActivityIndicator } from 'react-native';
+// import { useNavigation, useFocusEffect } from '@react-navigation/native';
+// import firebase from 'firebase/compat';
+// import { FontAwesome } from '@expo/vector-icons';
+
+
+// const ReportsScreen = () => {
+//   const navigation = useNavigation();
+//   const [reports, setReports] = useState([]);
+//   const [searchQuery, setSearchQuery] = useState('');
+//   const [isLoading, setIsLoading] = useState(true);
+
+//   useFocusEffect(
+//     React.useCallback(() => {
+//       const onBackPress = () => {
+//         navigation.navigate('Admin');
+//         return true;
+//       };
+
+//       BackHandler.addEventListener('hardwareBackPress', onBackPress);
+
+//       return () => {
+//         BackHandler.removeEventListener('hardwareBackPress', onBackPress);
+//       };
+//     }, [navigation]),
+//   );
+
+
+//   const formatTimestamp = (timestamp) => {
+//     const date = timestamp.toDate();
+//     const today = new Date();
+//     const yesterday = new Date(today);
+//     yesterday.setDate(yesterday.getDate() - 1);
+  
+//     if (date.toDateString() === today.toDateString()) {
+//       // Today
+//       return 'Today ' + date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+//     } else if (date.toDateString() === yesterday.toDateString()) {
+//       // Yesterday
+//       return 'Yesterday ' + date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+//     } else {
+//       // Other days
+//       return date.toLocaleDateString('en-US', { weekday: 'short' });
+//     }
+//   };
+
+
+//   useEffect(() => {
+//     const fetchReports = async () => {
+//       try {
+//         const reportsCollection = firebase.firestore().collection('Report');
+//         const snapshot = await reportsCollection.get();
+//         const fetchedReports = snapshot.docs.map(doc => ({ 
+//           id: doc.id, 
+//           driverName: doc.data().driverName,
+//           reported: doc.data().reported,
+//           reporterName: doc.data().reporterName,
+          
+//           ...doc.data() 
+//         }));
+//         setReports(fetchedReports);
+//         setIsLoading(false);
+//       } catch (error) {
+//         console.error('Error fetching reports:', error);
+//       }
+//     };
+
+//     fetchReports();
+//   }, []);
+
+
+//   const handleReportClick = (report) => {
+//     navigation.navigate('ReportScreenDetails', {
+//       id: report.id,
+//       driverName: report.driverName,
+//     });
+//   };
+
+//   const filteredReports = reports.filter((report) =>
+//     report.id.toLowerCase().includes(searchQuery.toLowerCase()) // Filter by ID
+//   );
+
+//   return (
+//     <View style={styles.container}>
+//       <Image source={require('../../assets/logoo.png')} style={styles.logo}/>
+//       <Text style={styles.reps}>Reports</Text>
+
+//       <View style={styles.searchContainer}>
+//       <View style={styles.reportInputContainer}>
+//           <FontAwesome name="search" size={20} color="black" style={styles.searchIcon} />
+//           <TextInput
+//             style={styles.searchInput}
+//             placeholder="Search name..."
+//             value={searchQuery}
+//             onChangeText={(text) => setSearchQuery(text)}
+//           />
+//         </View>
+//       </View>
+
+//       <View style={styles.reportListContainer}>
+//         {isLoading ? (
+//           <ActivityIndicator size="large" color="#0000ff" style={styles.loadingIndicator} />
+//         ) : (
+//           <ScrollView style={styles.reportList}>
+//             {filteredReports.map((report, index) => (
+//               <TouchableOpacity
+//                 key={index}
+//                 style={styles.reportItem}
+//                 onPress={() => handleReportClick(report)}
+//               >
+//                 {/* <Text style={styles.reportId}>{report.id}</Text>  */}
+//                 <Text style={styles.reportName}> {report.reported}</Text>
+//                 {/* <Text style={styles.reportName}>Driver Name: {report.reporterName}</Text> */}
+//                 {/* <Text style={styles.reportName}>{report.name}</Text>  */}
+
+
+//                 {/* <Text style={styles.reportTitle}>{report.title}</Text> */}
+//               </TouchableOpacity>
+//             ))}
+//           </ScrollView>
+//         )}
+//       </View>
+//     </View>
+//   );
+// };
+
+// const styles = StyleSheet.create({
+ 
+
+
+//   container: {
+//     flex: 1,
+//     padding: 30,
+//     justifyContent: 'center',
+//     alignItems: 'center',
+//     backgroundColor: '#86A7FC',
+//     backgroundColor: 'white',
+//   },
+  
+//   searchContainer: {
+//     flexDirection: 'row',
+//     alignItems: 'center',
+//     marginBottom: 10,
+//     marginTop:-30
+//   },
+//   reportInputContainer: {
+//     flexDirection: 'row',
+//     alignItems: 'center',
+//     borderWidth: 1,
+//     borderColor: 'gray',
+//     borderRadius: 20,
+//     height: 40,
+//     flex: 1,
+//     paddingHorizontal: 10,
+//     backgroundColor:'white'
+//   },
+//   searchIcon: {
+//     marginRight: 10,
+//   },
+//   searchInput: {
+//     flex: 1,
+//     height: '100%',
+//   },
+//   reportListContainer: {
+//     flex: 1,
+//     width: '100%',
+//     backgroundColor: '#ffd702',
+//     borderRadius: 25,
+//     // paddingLeft: 20,
+//     // paddingRight: 20,
+//     paddingTop: 10,
+//     marginTop: 10,
+//     justifyContent: 'center', // Center the loading indicator vertically
+//     alignItems: 'center', // Center the loading indicator horizontally
+
+//     paddingLeft:20,
+//     paddingRight:20,
+//     paddingTop:20,
+//     paddingBottom:20
+   
+    
+//   },
+//   reportList: {
+//     flex: 1,
+//     width: '100%',
+    
+//   },
+//   reportItem: {
+//     // flexDirection: 'row',
+//     // alignItems: 'center',
+//     // paddingVertical: 10,
+//     // borderBottomWidth: 1,
+//     // borderBottomColor: 'gray',
+//     // width: '100%',
+//     // height: 50,
+//     // paddingLeft: 20,
+//     // paddingRight: 20,
+
+//     marginBottom: 10,
+//     padding: 10,
+//     borderWidth: 1,
+//     borderColor: 'gray',
+//     borderRadius: 5,
+//     width: '100%',
+//     height:48,
+//     backgroundColor:"#ffff"
+//   },
+//   userNumber: {
+//     marginRight: 10,
+//   },
+//   reportName: {
+//     fontSize: 16,
+//     color: 'black',
+//   },
+//   logo: {
+//     width: 160,
+//     height: 160,
+//     marginBottom: -20,
+//     marginTop: -50,
+//   },
+  
+//   reps: {
+//     fontSize: 30,
+//     fontWeight: 'bold',
+//     marginBottom: 40,
+//   },
+//   loadingIndicator: {
+//     alignSelf: 'center', // Center the loading indicator horizontally
+//   },
+// });
+
+// export default ReportsScreen;
+
+
+
 
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, BackHandler, Image, TextInput, ScrollView, TouchableOpacity, ActivityIndicator } from 'react-native';
@@ -224,13 +461,12 @@ const ReportsScreen = () => {
     }, [navigation]),
   );
 
-
   const formatTimestamp = (timestamp) => {
     const date = timestamp.toDate();
     const today = new Date();
     const yesterday = new Date(today);
     yesterday.setDate(yesterday.getDate() - 1);
-  
+
     if (date.toDateString() === today.toDateString()) {
       // Today
       return 'Today ' + date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
@@ -243,18 +479,18 @@ const ReportsScreen = () => {
     }
   };
 
-
   useEffect(() => {
     const fetchReports = async () => {
       try {
         const reportsCollection = firebase.firestore().collection('Report');
         const snapshot = await reportsCollection.get();
-        const fetchedReports = snapshot.docs.map(doc => ({ 
-          id: doc.id, 
+        const fetchedReports = snapshot.docs.map(doc => ({
+          id: doc.id,
           driverName: doc.data().driverName,
+          reported: doc.data().reported,
           reporterName: doc.data().reporterName,
-          
-          ...doc.data() 
+
+          ...doc.data()
         }));
         setReports(fetchedReports);
         setIsLoading(false);
@@ -266,7 +502,6 @@ const ReportsScreen = () => {
     fetchReports();
   }, []);
 
-
   const handleReportClick = (report) => {
     navigation.navigate('ReportScreenDetails', {
       id: report.id,
@@ -275,16 +510,16 @@ const ReportsScreen = () => {
   };
 
   const filteredReports = reports.filter((report) =>
-    report.id.toLowerCase().includes(searchQuery.toLowerCase()) // Filter by ID
+    report.reported.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   return (
     <View style={styles.container}>
-      <Image source={require('../../assets/logoo.png')} style={styles.logo}/>
+      <Image source={require('../../assets/logoo.png')} style={styles.logo} />
       <Text style={styles.reps}>Reports</Text>
 
       <View style={styles.searchContainer}>
-      <View style={styles.reportInputContainer}>
+        <View style={styles.reportInputContainer}>
           <FontAwesome name="search" size={20} color="black" style={styles.searchIcon} />
           <TextInput
             style={styles.searchInput}
@@ -306,13 +541,7 @@ const ReportsScreen = () => {
                 style={styles.reportItem}
                 onPress={() => handleReportClick(report)}
               >
-                {/* <Text style={styles.reportId}>{report.id}</Text>  */}
-                <Text style={styles.reportName}> {report.driverName}</Text>
-                {/* <Text style={styles.reportName}>Driver Name: {report.reporterName}</Text> */}
-                {/* <Text style={styles.reportName}>{report.name}</Text>  */}
-
-
-                {/* <Text style={styles.reportTitle}>{report.title}</Text> */}
+                <Text style={styles.reportName}> {report.reported}</Text>
               </TouchableOpacity>
             ))}
           </ScrollView>
@@ -323,23 +552,17 @@ const ReportsScreen = () => {
 };
 
 const styles = StyleSheet.create({
- 
-
-
   container: {
     flex: 1,
     padding: 30,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#86A7FC',
     backgroundColor: 'white',
   },
-  
   searchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 10,
-    marginTop:-30
   },
   reportInputContainer: {
     flexDirection: 'row',
@@ -350,7 +573,7 @@ const styles = StyleSheet.create({
     height: 40,
     flex: 1,
     paddingHorizontal: 10,
-    backgroundColor:'white'
+    backgroundColor: 'white'
   },
   searchIcon: {
     marginRight: 10,
@@ -364,47 +587,27 @@ const styles = StyleSheet.create({
     width: '100%',
     backgroundColor: '#ffd702',
     borderRadius: 25,
-    // paddingLeft: 20,
-    // paddingRight: 20,
     paddingTop: 10,
     marginTop: 10,
+    paddingLeft: 20,
+    paddingRight: 20,
+    paddingBottom: 20,
     justifyContent: 'center', // Center the loading indicator vertically
     alignItems: 'center', // Center the loading indicator horizontally
-
-    paddingLeft:20,
-    paddingRight:20,
-    paddingTop:20,
-    paddingBottom:20
-   
-    
   },
   reportList: {
     flex: 1,
     width: '100%',
-    
   },
   reportItem: {
-    // flexDirection: 'row',
-    // alignItems: 'center',
-    // paddingVertical: 10,
-    // borderBottomWidth: 1,
-    // borderBottomColor: 'gray',
-    // width: '100%',
-    // height: 50,
-    // paddingLeft: 20,
-    // paddingRight: 20,
-
     marginBottom: 10,
     padding: 10,
     borderWidth: 1,
     borderColor: 'gray',
     borderRadius: 5,
     width: '100%',
-    height:48,
-    backgroundColor:"#ffff"
-  },
-  userNumber: {
-    marginRight: 10,
+    height: 48,
+    backgroundColor: "#ffff"
   },
   reportName: {
     fontSize: 16,
@@ -416,7 +619,6 @@ const styles = StyleSheet.create({
     marginBottom: -20,
     marginTop: -50,
   },
-  
   reps: {
     fontSize: 30,
     fontWeight: 'bold',
