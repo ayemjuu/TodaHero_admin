@@ -90,7 +90,7 @@ const QRCodeScreen = ({ route }) => {
       <Text style={styles.title}>{name}'s QR Code</Text>
       <Text style={styles.title}>Plate Number {plateNumber}</Text>
       <QRCode value={qrCode} size={300} />
-      <TouchableOpacity><Text>Download</Text></TouchableOpacity>
+      <TouchableOpacity><Text>Download Me</Text></TouchableOpacity>
     </View>
   );
 };
