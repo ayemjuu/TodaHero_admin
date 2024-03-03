@@ -541,7 +541,7 @@ const ReportsScreen = () => {
                 style={styles.reportItem}
                 onPress={() => handleReportClick(report)}
               >
-                <Text style={styles.reportName}> {report.reported}</Text>
+                <Text style={styles.reportName}> {report.report}</Text>
               </TouchableOpacity>
             ))}
           </ScrollView>

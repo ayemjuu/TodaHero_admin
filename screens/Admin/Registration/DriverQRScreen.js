@@ -54,7 +54,7 @@
 
 
 import React from 'react';
-import { View, StyleSheet, Button, Text, BackHandler } from 'react-native';
+import { View, StyleSheet, Button, Text, BackHandler, Image, TouchableOpacity } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
 import { useFocusEffect } from '@react-navigation/native'; 
 
@@ -94,14 +94,23 @@ console.log(qrData.driverId);
 
   return (
     <View style={styles.container}>
-       <Text style={styles.label}>CONGRATS! YOU ARE NOW REGISTERED:</Text>
+        <Image source={require('../../../assets/logo.png')} style={styles.logo}/>
+
+    <View style={styles.seccontainer}>
+
+       <Text style={styles.label}>YOU ARE NOW REGISTERED AS DRIVER:</Text>
         <View style={styles.qrContainer}>
-          <QRCode value={JSON.stringify(qrData)} size={300}/>
+          <QRCode value={JSON.stringify(qrData)} size={280}/>
         </View>
-        <View style={styles.button}>
-        <Button title="Done" onPress={handleDone}/>
-        </View>
+       
+        {/* <Button title="Done" onPress={handleDone}/> */}
+        <TouchableOpacity onPress={handleDone} style={styles.button}>
+          <Text style={styles.buttonText}>Done</Text>
+        </TouchableOpacity>
+       
     </View>
+    </View>
+
   );
 };
 
@@ -112,23 +121,59 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor:'#ffd702'
+    backgroundColor:'white'
+  },
+
+  seccontainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor:'#ffd702',
+    height:500,
+    padding:10,
+    paddingLeft:30,
+    paddingRight:30,
+    borderRadius:10,
+    
+    
   },
   qrContainer: {
     marginBottom: 20,
     height:100
   },
   button:{
-    marginTop:200,
+  backgroundColor:'white',
+  height:50,
+  width:100,
+  marginTop:190,
+  marginBottom:50,
+  textAlign:'center',
+  borderRadius:10,
+  justifyContent: 'center', // Center content horizontally
+  alignItems: 'center', // Center content vertically
    
+  },
+
+  buttonText: {
+    textAlign:'center',
+ 
+    fontSize:20,
   },
   label: {
     fontSize:25,
 
     fontWeight:'bold',
     textAlign:'center',
-    marginBottom:50
-  }
+    marginBottom:50,
+    marginTop:50
+  },
+
+  logo: {
+    width: 210, // Adjust width as needed
+    height: 210, // Adjust height as needed
+    marginBottom: 20,
+    marginTop: -80,
+    
+  },
 });
 
 export default DriverQR;
