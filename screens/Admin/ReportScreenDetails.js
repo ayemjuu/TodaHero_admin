@@ -237,8 +237,8 @@ const styles = StyleSheet.create({
   },
   seccontainer: {
     backgroundColor: '#ffd702',
-    height: 400,
-    width: 300,
+    height: '50%',
+    width: '80%',
     marginTop: -30,
     padding:20,
     borderRadius:10
