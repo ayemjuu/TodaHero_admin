@@ -117,6 +117,9 @@ import { View, Text, TextInput, Button, StyleSheet, ActivityIndicator, BackHandl
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { firebase } from '../../../config'; // Import your Firebase config
 
+import { Ionicons } from '@expo/vector-icons';
+
+
 const RegistrationForm = () => {
   const [name, setName] = useState('');
   const [contactNumber, setContactNumber] = useState('');
@@ -214,6 +217,10 @@ const RegistrationForm = () => {
 
   return (
     <View style={styles.container}>
+      <TouchableOpacity onPress={() => navigation.navigate('Registration')} style={styles.backButton}>
+          {/* <Text style={styles.backButton}>asd<Ionicons name="arrow-back-sharp" size={35} color="black" /></Text> */}
+          <Ionicons name="arrow-back-sharp" size={35} color="black" />
+       </TouchableOpacity>
         <Image source={require('../../../assets/logo.png')} style={styles.logo}/>
       	<Text style={styles.header}>DRIVER REGISTRATION:</Text>
       <Text style={styles.label}>Name:</Text>
@@ -233,6 +240,22 @@ const RegistrationForm = () => {
         maxLength={13}
       /> */}
 
+{/* <Text style={styles.label}>Contact Number:</Text>
+<View>
+<Image source={require('../../../assets/ph.png')} style={styles.image} />
+
+
+<TextInput
+  style={styles.input}
+  value={contactNumber.startsWith("+639") ? contactNumber : "+639" + contactNumber}
+  onChangeText={setContactNumber}
+  placeholder="Enter your contact number"
+  keyboardType="phone-pad"
+  maxLength={13}
+/>
+</View> */}
+
+
 <Text style={styles.label}>Contact Number:</Text>
 <TextInput
   style={styles.input}
@@ -250,12 +273,12 @@ const RegistrationForm = () => {
         onChangeText={setAddress}
         placeholder="Enter your address"
       />
-      <Text style={styles.label}>Plate Number:</Text>
+      <Text style={styles.label}>TODA Number:</Text>
       <TextInput
         style={styles.input}
         value={plateNumber}
         onChangeText={setPlateNumber}
-        placeholder="Enter your plate number"
+        placeholder="Enter your TODA number"
       />
       
       {/* <Button  title="Register" onPress={generateQRCode} disabled={isFormEmpty || isLoading} style={styles.registerButton} />
@@ -322,12 +345,19 @@ const styles = StyleSheet.create({
   loadingIndicator: {
     marginTop: 10,
   },
-  logo: {
-    width: 210, // Adjust width as needed
-    height: 210, // Adjust height as needed
-    marginBottom: 60,
-    marginTop: -50,
+  // logo: {
+  //   width: 210, // Adjust width as needed
+  //   height: 210, // Adjust height as needed
+  //   marginBottom: 60,
+  //   marginTop: -200,
     
+  // },
+
+  logo: {
+    width: 160,
+    height: 160,
+    marginBottom: 150,
+    marginTop:-150,
   },
   header: {
     fontSize: 20,
@@ -349,6 +379,20 @@ const styles = StyleSheet.create({
     width:'100%',
     borderWidth:0
   },
+  backButton: {
+    position: 'absolute',
+    top: 50,
+    left: 20,
+   },
+  
+  image :{
+    width:20,
+    height:20,
+    position:'absolute',
+    top:10,
+    left:10,
+  }
+
 });
 
 export default RegistrationForm;

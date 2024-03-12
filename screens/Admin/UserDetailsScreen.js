@@ -277,6 +277,9 @@ import { AntDesign } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 
+import { Ionicons } from '@expo/vector-icons';
+
+
 const UserDetailsScreen = ({ route }) => {
   const navigation = useNavigation();
   const { name, contactNumber, address, username } = route.params;
@@ -362,17 +365,27 @@ const UserDetailsScreen = ({ route }) => {
 
   return (
     <View style={styles.container}>
+      <TouchableOpacity onPress={() => navigation.navigate('User')} style={styles.backButton}>
+          {/* <Text style={styles.backButton}>asd<Ionicons name="arrow-back-sharp" size={35} color="black" /></Text> */}
+          <Ionicons name="arrow-back-sharp" size={35} color="black" />
+       </TouchableOpacity>
       <Image source={require('../../assets/logo.png')} style={styles.logo}/>
       <View style={styles.contentContainer}>
+
+      {/* <Text style={styles.userdetail}>User Details</Text> */}
         <View style={styles.textContainer}>
 
-        <Text style={styles.userdetails}>User Details</Text>
+        {/* <View style={styles.usercenter}>
+                <Text style={styles.userdetails}>User Details</Text>
+        </View> */}
 
-          <Text style={styles.name}><AntDesign name="user" size={20} color="black" /> - {name}</Text>
-          <Text style={styles.text}><AntDesign name="phone" size={20} color="black" /> - {contactNumber}</Text>
-          <Text style={styles.text}><AntDesign name="home" size={20} color="black" /> - {address}</Text>
+          <Text style={styles.userdetail}>User Details</Text>
+
+          <Text style={styles.name}><AntDesign name="user" size={20} color="black" /> • {name}</Text>
+          <Text style={styles.text}><AntDesign name="phone" size={20} color="black" /> • {contactNumber}</Text>
+          <Text style={styles.text}><AntDesign name="home" size={20} color="black" /> • {address}</Text>
           {registrationDate && (
-            <Text style={styles.text}><AntDesign name="calendar" size={20} color="black" /> - {registrationDate.toDateString()}</Text>
+            <Text style={styles.text}><AntDesign name="calendar" size={20} color="black" /> • {registrationDate.toDateString()}</Text>
           )}
         </View>
         <View style={styles.buttonContainer}>
@@ -414,14 +427,15 @@ const styles = StyleSheet.create({
     backgroundColor: 'white'
   },
   contentContainer: {
-    alignItems: 'flex-start',
+    // alignItems: 'flex-start',
     justifyContent: 'center',
     backgroundColor: '#ffd702',
-    height: 300,
     borderRadius: 25,
     marginTop: 10,
     padding: 10,
-    width: 300
+    paddingTop:10,
+    width:"90%",
+    height:"50%",
   },
   textContainer: {
     marginLeft: 10,
@@ -430,20 +444,28 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 22,
     fontWeight: 'bold',
-    marginBottom: 5
+    marginBottom: 15,
+
   },
   text: {
     fontSize: 20,
-    marginBottom: 5
+    marginBottom: 15,
   },
   date: {
     fontSize: 15
   },
+  // logo: {
+  //   width: 210,
+  //   height: 210,
+  //   marginBottom: 10,
+  //   marginTop: -80
+  // },
+
   logo: {
-    width: 210,
-    height: 210,
-    marginBottom: 10,
-    marginTop: -80
+    width: 160,
+    height: 160,
+    marginBottom: 100,
+    marginTop:-190,
   },
   history: {
     marginTop: 20,
@@ -467,15 +489,23 @@ const styles = StyleSheet.create({
     gap: 10
   },
 
-  userdetails:{
+  userdetail:{
     marginTop:-35,
     fontSize:25,
     fontWeight:'bold',
-    marginBottom:15,
-    // justifyContent:'center',
-    // marginLeft:65,
+    marginBottom:25,
     textAlign:'center'
-  }
+   
+   
+
+  },
+  backButton: {
+    position: 'absolute',
+    top: 50,
+    left: 20,
+   },
+
+
 });
 
 export default UserDetailsScreen;

@@ -632,12 +632,318 @@
 // export default ReportsScreen;
 
 
+// //working 3-8-24
+// import React, { useState, useEffect } from 'react';
+// import { View, Text, StyleSheet, BackHandler, Image, TextInput, ScrollView, TouchableOpacity, ActivityIndicator } from 'react-native';
+// import { useNavigation, useFocusEffect } from '@react-navigation/native';
+// import firebase from 'firebase/compat';
+// import { FontAwesome } from '@expo/vector-icons';
+
+
+// const ReportsScreen = () => {
+//   const navigation = useNavigation();
+//   const [reports, setReports] = useState([]);
+//   const [searchQuery, setSearchQuery] = useState('');
+//   const [isLoading, setIsLoading] = useState(true);
+
+//   useFocusEffect(
+//     React.useCallback(() => {
+//       const onBackPress = () => {
+//         navigation.navigate('Admin');
+//         return true;
+//       };
+
+//       BackHandler.addEventListener('hardwareBackPress', onBackPress);
+
+//       return () => {
+//         BackHandler.removeEventListener('hardwareBackPress', onBackPress);
+//       };
+//     }, [navigation]),
+//   );
+
+//   // const formatTimestamp = (timestamp) => {
+//   //   const date = timestamp.toDate();
+//   //   const today = new Date();
+//   //   const yesterday = new Date(today);
+//   //   yesterday.setDate(yesterday.getDate() - 1);
+
+//   //   if (date.toDateString() === today.toDateString()) {
+//   //     // Today
+//   //     return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+//   //   } else if (date.toDateString() === yesterday.toDateString()) {
+//   //     // Yesterday
+//   //     return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+//   //   } else {
+//   //     // Other days
+//   //     return date.toLocaleDateString('en-US', { weekday: 'short' });
+//   //   }
+//   // };
+
+  
+  
+
+
+
+  
+
+
+//   const formatTimestamp = (timestamp) => {
+//     const date = timestamp.toDate();
+//     const today = new Date();
+//     const yesterday = new Date(today);
+//     yesterday.setDate(yesterday.getDate() - 1);
+  
+//     if (date.toDateString() === today.toDateString()) {
+//       // Today
+//       return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+//     } else if (date.toDateString() === yesterday.toDateString()) {
+//       // Yesterday
+//       return 'Yesterday';
+//     } else if (today.getTime() - date.getTime() < 7 * 24 * 60 * 60 * 1000) {
+//       // Last 7 days
+//       const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+//       return dayNames[date.getDay()];
+//     } else {
+//       // Last week or earlier
+//       return date.toLocaleDateString('en-US');
+//     }
+//   };
+  
+
+//   useEffect(() => {
+//     const fetchReports = async () => {
+//       try {
+//         const reportsCollection = firebase.firestore().collection('Report');
+//         const snapshot = await reportsCollection.get();
+//         const fetchedReports = snapshot.docs.map(doc => ({
+//           id: doc.id,
+//           driverName: doc.data().driverName,
+//           reported: doc.data().reported,
+//           reporterName: doc.data().reporterName,
+//           timeReported: doc.data().timeReported, // Include timeReported field
+
+//           ...doc.data()
+//         }));
+//         setReports(fetchedReports);
+//         setIsLoading(false);
+//       } catch (error) {
+//         console.error('Error fetching reports:', error);
+//       }
+//     };
+
+//     fetchReports();
+//   }, []);
+
+//   const handleReportClick = (report) => {
+//     navigation.navigate('ReportScreenDetails', {
+//       id: report.id,
+//       driverName: report.driverName,
+//     });
+//   };
+
+//   const filteredReports = reports.filter((report) =>
+//     report.reported.toLowerCase().includes(searchQuery.toLowerCase())
+//   );
+
+//   return (
+//     <View style={styles.container}>
+//       <Image source={require('../../assets/logoo.png')} style={styles.logo} />
+//       <Text style={styles.reps}>Reports</Text>
+
+//       <View style={styles.searchContainer}>
+//         <View style={styles.reportInputContainer}>
+//           <FontAwesome name="search" size={20} color="black" style={styles.searchIcon} />
+//           <TextInput
+//             style={styles.searchInput}
+//             placeholder="Search name..."
+//             value={searchQuery}
+//             onChangeText={(text) => setSearchQuery(text)}
+//           />
+//         </View>
+//       </View>
+
+//       {/* <View style={styles.reportListContainer}>
+//         {isLoading ? (
+//           <ActivityIndicator size="large" color="#0000ff" style={styles.loadingIndicator} />
+//         ) : (
+//           <ScrollView style={styles.reportList}>
+//             {filteredReports.map((report, index) => (
+//               <TouchableOpacity
+//                 key={index}
+//                 style={styles.reportItem}
+//                 onPress={() => handleReportClick(report)}
+//               >
+//                 <Text style={styles.reportName}>
+               
+//                   {report.reported}    
+             
+                
+                
+//                 </Text>
+//                 <Text style={styles.reportTime}>
+                
+              
+//                   {formatTimestamp(report.timeReported)}
+                
+                
+//                 </Text>
+              
+
+
+ 
+//               </TouchableOpacity>
+//             ))}
+//           </ScrollView>
+//         )}
+//       </View> */}
+// {/* nakaarrange */}
+// <View style={styles.reportListContainer}>
+//   {isLoading ? (
+//     <ActivityIndicator size="large" color="#0000ff" style={styles.loadingIndicator} />
+//   ) : (
+//     <ScrollView style={styles.reportList}>
+//       {filteredReports
+//         .sort((a, b) => b.timeReported - a.timeReported) // Sort reports based on timeReported
+//         .map((report, index) => (
+//           <TouchableOpacity
+//             key={index}
+//             style={styles.reportItem}
+//             onPress={() => handleReportClick(report)}
+//           >
+//             <Text style={styles.reportName}>
+//               {report.reported}    
+//             </Text>
+//             <Text style={styles.reportTime}>
+//               {formatTimestamp(report.timeReported)}
+//             </Text>
+//           </TouchableOpacity>
+//         ))}
+//     </ScrollView>
+//   )}
+// </View>
+
+//     </View>
+//   );
+// };
+
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     padding: 30,
+//     justifyContent: 'center',
+//     alignItems: 'center',
+//     backgroundColor: 'white',
+//   },
+//   searchContainer: {
+//     flexDirection: 'row',
+//     alignItems: 'center',
+//     marginBottom: 10,
+//   },
+//   reportInputContainer: {
+//     flexDirection: 'row',
+//     alignItems: 'center',
+//     borderWidth: 1,
+//     borderColor: 'gray',
+//     borderRadius: 20,
+//     height: 40,
+//     flex: 1,
+//     paddingHorizontal: 10,
+//     backgroundColor: 'white'
+//   },
+//   searchIcon: {
+//     marginRight: 10,
+//   },
+//   searchInput: {
+//     flex: 1,
+//     height: '100%',
+//   },
+//   reportListContainer: {
+//     flex: 1,
+//     width: '100%',
+//     backgroundColor: '#ffd702',
+//     borderRadius: 25,
+//     paddingTop: 10,
+//     marginTop: 10,
+//     paddingLeft: 20,
+//     paddingRight: 20,
+//     paddingBottom: 20,
+//     justifyContent: 'center', // Center the loading indicator vertically
+//     alignItems: 'center', // Center the loading indicator horizontally
+//   },
+//   reportList: {
+//     flex: 1,
+//     width: '100%',
+//   },
+//   reportItem: {
+//     marginBottom: 10,
+//     padding: 10,
+//     borderWidth: 1,
+//     borderColor: 'gray',
+//     borderRadius: 5,
+//     width: '100%',
+//     height: 48,
+//     backgroundColor: "#ffff"
+//   },
+//   reportName: {
+//     fontSize: 16,
+//     color: 'black',
+//     // backgroundColor: 'blue',
+//     position: 'absolute',
+//     left: 10, // Adjust this value as needed for spacing
+//     top: 10, // Adjust this value as needed for vertical positioning
+//   },
+  
+//   reportTime: {
+//     fontSize: 16,
+//     color: 'black',
+//     // backgroundColor: 'blue',
+//     position: 'absolute',
+//     right: 10, // Adjust this value as needed for spacing
+//     top: 10, // Adjust this value as needed for vertical positioning
+//   },
+  
+  
+//   // reportName: {
+//   //   flex: 1,
+//   //   fontSize: 16,
+//   //   color: 'black',
+//   //   backgroundColor:'blue',
+
+
+    
+//   // },
+//   logo: {
+//     width: 160,
+//     height: 160,
+//     marginBottom: -20,
+//     marginTop: -50,
+//   },
+//   reps: {
+//     fontSize: 30,
+//     fontWeight: 'bold',
+//     marginBottom: 40,
+//   },
+//   loadingIndicator: {
+//     alignSelf: 'center', // Center the loading indicator horizontally
+//   },
+
+
+// });
+
+// export default ReportsScreen;
+
+
+
+
+//galing kay ynna 'to:
 
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, BackHandler, Image, TextInput, ScrollView, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import firebase from 'firebase/compat';
 import { FontAwesome } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
+
 
 
 const ReportsScreen = () => {
@@ -687,6 +993,29 @@ const ReportsScreen = () => {
   
 
 
+  // const formatTimestamp = (timestamp) => {
+  //   const date = timestamp.toDate();
+  //   const today = new Date();
+  //   const yesterday = new Date(today);
+  //   yesterday.setDate(yesterday.getDate() - 1);
+  
+  //   if (date.toDateString() === today.toDateString()) {
+  //     // Today
+  //     return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  //   } else if (date.toDateString() === yesterday.toDateString()) {
+  //     // Yesterday
+  //     return 'Yesterday';
+  //   } else if (today.getTime() - date.getTime() < 7 * 24 * 60 * 60 * 1000) {
+  //     // Last 7 days
+  //     const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  //     return dayNames[date.getDay()];
+  //   } else {
+  //     // Last week or earlier
+  //     return date.toLocaleDateString('en-US');
+  //   }
+  // };
+
+
   const formatTimestamp = (timestamp) => {
     const date = timestamp.toDate();
     const today = new Date();
@@ -696,9 +1025,6 @@ const ReportsScreen = () => {
     if (date.toDateString() === today.toDateString()) {
       // Today
       return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    } else if (date.toDateString() === yesterday.toDateString()) {
-      // Yesterday
-      return 'Yesterday';
     } else if (today.getTime() - date.getTime() < 7 * 24 * 60 * 60 * 1000) {
       // Last 7 days
       const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -708,6 +1034,7 @@ const ReportsScreen = () => {
       return date.toLocaleDateString('en-US');
     }
   };
+
   
 
   useEffect(() => {
@@ -741,12 +1068,21 @@ const ReportsScreen = () => {
     });
   };
 
+  // const filteredReports = reports.filter((report) =>
+  //   report.reported.toLowerCase().includes(searchQuery.toLowerCase())
+  // );
+
   const filteredReports = reports.filter((report) =>
-    report.reported.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  report.reported && report.reported.toLowerCase().includes(searchQuery.toLowerCase())
+);
+
 
   return (
     <View style={styles.container}>
+      <TouchableOpacity onPress={() => navigation.navigate('Admin')} style={styles.backButton}>
+          {/* <Text style={styles.backButton}>asd<Ionicons name="arrow-back-sharp" size={35} color="black" /></Text> */}
+          <Ionicons name="arrow-back-sharp" size={35} color="black" />
+       </TouchableOpacity>
       <Image source={require('../../assets/logoo.png')} style={styles.logo} />
       <Text style={styles.reps}>Reports</Text>
 
@@ -926,6 +1262,12 @@ const styles = StyleSheet.create({
   loadingIndicator: {
     alignSelf: 'center', // Center the loading indicator horizontally
   },
+
+  backButton: {
+    position: 'absolute',
+    top: 50,
+    left: 20,
+   },
 
 
 });

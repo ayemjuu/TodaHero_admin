@@ -1,6 +1,8 @@
 import React from 'react';
 import { View, Text, StyleSheet, Button, Image, BackHandler, TouchableOpacity } from 'react-native';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import { Ionicons } from '@expo/vector-icons';
+
 
 const RegistrationScreen = () => {
 
@@ -44,6 +46,10 @@ const RegistrationScreen = () => {
 
   return (
     <View style={styles.container}>
+      <TouchableOpacity onPress={() => navigation.navigate('Admin')} style={styles.backButton}>
+          {/* <Text style={styles.backButton}>asd<Ionicons name="arrow-back-sharp" size={35} color="black" /></Text> */}
+          <Ionicons name="arrow-back-sharp" size={35} color="black" />
+       </TouchableOpacity>
       <Image source={require('../../assets/logo.png')} style={styles.logo}/>
 
       <Text style={styles.title}>REGISTRATION</Text>
@@ -128,7 +134,13 @@ const styles = StyleSheet.create({
   buttonImage: {
     width:40,
     height:40
-  }
+  },
+
+  backButton: {
+    position: 'absolute',
+    top: 50,
+    left: 20,
+   },
 });
 
 export default RegistrationScreen;

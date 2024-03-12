@@ -147,6 +147,8 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView, Image, TouchableOpacity, ActivityIndicator, BackHandler } from 'react-native';
 import { firebase } from '../../config'; 
 import { useNavigation } from '@react-navigation/native';
+import { Ionicons } from '@expo/vector-icons';
+
 
 const DriverHistoryScreen = ({ route }) => {
   const { name } = route.params;
@@ -193,8 +195,15 @@ const DriverHistoryScreen = ({ route }) => {
     navigation.navigate('DriverHistoryDetailScreen', { itemId });
   };
 
+
+  const handleBack = () => {
+    navigation.goBack(); // Navigate back to the previous screen
+  };
   return (
     <View style={styles.container}>
+           <TouchableOpacity onPress={handleBack} style={styles.backButton}>
+          <Ionicons name="arrow-back-sharp" size={35} color="black" />
+       </TouchableOpacity>
       <Image source={require('../../assets/logoo.png')} style={styles.logo}/>
       <Text style={styles.title}>{name} Ride History</Text>
       <View style={styles.seccontainer}>
@@ -205,7 +214,7 @@ const DriverHistoryScreen = ({ route }) => {
             {driverHistory.map((item) => (
               <TouchableOpacity key={item.id} onPress={() => handleHistoryItemClick(item.id)}>
                 <View style={styles.historyItem}>
-                  <Text>Ride Ended: {item.rideEnded && item.rideEnded.toDate().toLocaleString()}</Text>
+                  <Text style={styles.text}>Ride Ended: {item.rideEnded && item.rideEnded.toDate().toLocaleString()}</Text>
                   {/* <Text>User ID: {item.id}</Text> */}
                 </View>
               </TouchableOpacity>
@@ -226,11 +235,15 @@ const styles = StyleSheet.create({
   },
   seccontainer:{
     backgroundColor:'#ffd702',
-    height:500,
-    width:300,
+    // height:500,
+    // width:300,
     padding:20,
     justifyContent: 'center',
     alignItems: 'center',
+    borderRadius:20,
+    width:"90%",
+    height:"70%"
+
   },
   title: {
     fontSize: 24,
@@ -252,11 +265,24 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffff'
   },
   logo: {
-    width: 210,
-    height: 210,
+    width: 160,
+    height: 160,
     marginBottom: 10,
-    marginTop: -80,
+    marginTop: -30,
   },
+
+  backButton: {
+    position: 'absolute',
+    top: 50,
+    left: 20,
+   },
+
+   text: {
+    fontSize:13,
+    textAlign:'center',
+    marginTop:3
+   
+   }
 });
 
 export default DriverHistoryScreen;

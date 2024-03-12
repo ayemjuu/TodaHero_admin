@@ -244,6 +244,7 @@ import { View, Text, StyleSheet, ScrollView, Image, TouchableOpacity, ActivityIn
 import { firebase } from '../../config'; // Import your Firebase config
 import { useNavigation } from '@react-navigation/native';
 
+import { Ionicons } from '@expo/vector-icons';
 
 const UserHistoryScreen = ({ route }) => {
   const { name } = route.params;
@@ -295,8 +296,16 @@ const UserHistoryScreen = ({ route }) => {
     return () => backHandler.remove();
   }, [navigation]);
 
+  const handleBack = () => {
+    navigation.goBack(); // Navigate back to the previous screen
+  };
+
   return (
     <View style={styles.container}>
+
+<TouchableOpacity onPress={handleBack} style={styles.backButton}>
+          <Ionicons name="arrow-back-sharp" size={35} color="black" />
+       </TouchableOpacity>
       <Image source={require('../../assets/logoo.png')} style={styles.logo}/>
       <Text style={styles.title}>{name} Ride History</Text>
       <View style={styles.seccontainer}>
@@ -310,7 +319,7 @@ const UserHistoryScreen = ({ route }) => {
               <TouchableOpacity key={item.id} onPress={() => handleHistoryItemClick(item.id)}>
                 <View style={styles.historyItem}>
                   {/* <Text>User ID: {item.id}</Text> */}
-                  <Text>Ride Ended: {item.rideEnded && item.rideEnded.toDate().toLocaleString()}</Text>
+                  <Text style={styles.text}>Ride Ended: {item.rideEnded && item.rideEnded.toDate().toLocaleString()}</Text>
                 </View>
               </TouchableOpacity>
             ))}
@@ -330,17 +339,21 @@ const styles = StyleSheet.create({
   },
   seccontainer:{
     backgroundColor:'#ffd702',
-    height:500,
-    width:300,
+    // height:500,
+    // width:300,
     padding:20,
     borderRadius:20,
     justifyContent: 'center',
     alignItems: 'center',
+    width:"90%",
+    height:"70%"
+    
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 20,
+    textAlign:'center'
   },
   scrollView: {
     width: '100%',
@@ -356,11 +369,24 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffff'
   },
   logo: {
-    width: 210, // Adjust width as needed
-    height: 210, // Adjust height as needed
+    width: 160,
+    height: 160,
     marginBottom: 10,
-    marginTop: -80,
+    marginTop: -30,
   },
+
+  backButton: {
+    position: 'absolute',
+    top: 50,
+    left: 20,
+   },
+
+   text: {
+    fontSize:13,
+    textAlign:'center',
+    marginTop:3
+   
+   }
 });
 
 export default UserHistoryScreen;

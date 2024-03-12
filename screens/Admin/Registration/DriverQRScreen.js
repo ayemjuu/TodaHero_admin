@@ -98,7 +98,7 @@ console.log(qrData.driverId);
 
     <View style={styles.seccontainer}>
 
-       <Text style={styles.label}>YOU ARE NOW REGISTERED AS DRIVER:</Text>
+       <Text style={styles.label}>YOU ARE NOW REGISTERED AS DRIVER: {qrData.name}</Text>
         <View style={styles.qrContainer}>
           <QRCode value={JSON.stringify(qrData)} size={280}/>
         </View>
@@ -128,11 +128,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor:'#ffd702',
-    height:500,
+    height:540,
     padding:10,
-    paddingLeft:30,
-    paddingRight:30,
-    borderRadius:10,
+    paddingLeft:25,
+    paddingRight:25,
+    borderRadius:20,
     
     
   },
@@ -141,7 +141,7 @@ const styles = StyleSheet.create({
     height:100
   },
   button:{
-  backgroundColor:'white',
+  backgroundColor:'lightblue',
   height:50,
   width:100,
   marginTop:190,
@@ -168,8 +168,8 @@ const styles = StyleSheet.create({
   },
 
   logo: {
-    width: 210, // Adjust width as needed
-    height: 210, // Adjust height as needed
+    width: 160,
+    height: 160,
     marginBottom: 20,
     marginTop: -80,
     

@@ -237,6 +237,10 @@ import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { FontAwesome } from '@expo/vector-icons';
 import firebase from 'firebase/compat';
 
+
+import { Ionicons } from '@expo/vector-icons';
+
+
 const TodaDriverScreen = () => {
   const navigation = useNavigation();
   const [users, setUsers] = useState([]);
@@ -290,6 +294,10 @@ const TodaDriverScreen = () => {
 
   return (
     <View style={styles.container}>
+      <TouchableOpacity onPress={() => navigation.navigate('Admin')} style={styles.backButton}>
+          {/* <Text style={styles.backButton}>asd<Ionicons name="arrow-back-sharp" size={35} color="black" /></Text> */}
+          <Ionicons name="arrow-back-sharp" size={35} color="black" />
+       </TouchableOpacity>
       <Image source={require('../../assets/logo.png')} style={styles.logo}/>
       <Text style={styles.todadriver}>Registered Drivers</Text>
 
@@ -327,7 +335,10 @@ const TodaDriverScreen = () => {
               source={require('../../assets/tricycle.png')}
               style={styles.userImage}
             />
-            <Text style={styles.userName}>{user.name}</Text>
+            {/* <Text style={styles.userName}>{user.name}</Text> */}
+            <Text style={styles.userName}>
+              {user.name.length > 20 ? user.name.slice(0, 20) + "..." : user.name}
+            </Text>
           </View>
               </TouchableOpacity>
             ))}
@@ -449,6 +460,12 @@ const styles = StyleSheet.create({
     gap: 10,
     marginTop:-4
   },
+
+  backButton: {
+    position: 'absolute',
+    top: 50,
+    left: 20,
+   },
 });
 
 export default TodaDriverScreen;

@@ -124,8 +124,14 @@ import * as MediaLibrary from 'expo-media-library';
 // import * as FileSystem from 'expo-file-system';
 // import * as Permissions from 'expo-permissions'; // Import Permissions
 
+import { Ionicons } from '@expo/vector-icons';
+
+
 const QRCodeScreen = ({ route }) => {
   const { name, plateNumber, qrCode } = route.params;
+  
+  console.log("route.params:", route.params);
+
   const navigation = useNavigation();
   const qrCodeRef = useRef(null);
 
@@ -184,9 +190,16 @@ const QRCodeScreen = ({ route }) => {
     }
   };
   
+  const handleBack = () => {
+    navigation.goBack(); // Navigate back to the previous screen
+  };
 
   return (
     <View style={styles.container}>
+
+<TouchableOpacity onPress={handleBack} style={styles.backButton}>
+          <Ionicons name="arrow-back-sharp" size={35} color="black" />
+       </TouchableOpacity>
       <Image source={require('../../assets/logoo.png')} style={styles.logo}/>
 
     <View style={styles.seccontainer}>
@@ -221,7 +234,7 @@ const styles = StyleSheet.create({
   },
   seccontainer:{
     backgroundColor:'#ffd702',
-    borderRadius:10,
+    borderRadius:20,
     // padding:25,
 
     paddingTop: 60,
@@ -232,6 +245,8 @@ const styles = StyleSheet.create({
     // width:325,
     alignItems: 'center', // Center items horizontally
     justifyContent: 'center', // Center items vertically
+    width:"90%",
+    height:"60%"
   
 
   },
@@ -263,11 +278,17 @@ const styles = StyleSheet.create({
     height: 40,
   },
   logo: {
-    width: 210, // Adjust width as needed
-    height: 210, // Adjust height as needed
-    marginBottom: 50,
-    marginTop: -90,
+    width: 160,
+    height: 160,
+    marginBottom: 70,
+    marginTop: -110,
   },
+
+  backButton: {
+    position: 'absolute',
+    top: 50,
+    left: 20,
+   },
 });
 
 export default QRCodeScreen;

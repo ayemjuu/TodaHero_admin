@@ -3,6 +3,9 @@ import { View, Text, StyleSheet, BackHandler, TextInput, TouchableOpacity, Image
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import firebase from 'firebase/compat';
 
+import { Ionicons } from '@expo/vector-icons';
+
+
 // import { Ionicons } from '@expo/vector-icons';
 
 
@@ -223,6 +226,11 @@ const PassengerScreen = ({ navigation }) => {
       
         
         <View style={styles.container}>
+
+        <TouchableOpacity onPress={() => navigation.navigate('Registration')} style={styles.backButton}>
+          {/* <Text style={styles.backButton}>asd<Ionicons name="arrow-back-sharp" size={35} color="black" /></Text> */}
+          <Ionicons name="arrow-back-sharp" size={35} color="black" />
+       </TouchableOpacity>
      
             <Image source={require('../../../assets/logo.png')} style={styles.logo}/>
       	    <Text style={styles.header}>PASSENGER REGISTRATION:</Text>
@@ -435,11 +443,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   logo: {
-    width: 210, // Adjust width as needed
-    height: 210, // Adjust height as needed
-    marginBottom: 60,
-    marginTop: -50,
-    
+    width: 160,
+    height: 160,
+    marginBottom: 150,
+    marginTop:-150,
   },
 
   
@@ -460,6 +467,12 @@ errorTextContainer: {
    
    
 },
+
+backButton: {
+  position: 'absolute',
+  top: 50,
+  left: 20,
+ },
 
 
 

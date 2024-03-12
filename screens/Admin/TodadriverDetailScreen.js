@@ -7,6 +7,9 @@ import { AntDesign } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 
+import { Ionicons } from '@expo/vector-icons';
+
+
 
 const TodaDriverDetailsScreen = ({ route }) => {
   const navigation = useNavigation();
@@ -190,6 +193,10 @@ const TodaDriverDetailsScreen = ({ route }) => {
 
 return (
   <View style={styles.container}>
+    <TouchableOpacity onPress={() => navigation.navigate('TODA Drivers')} style={styles.backButton}>
+          {/* <Text style={styles.backButton}>asd<Ionicons name="arrow-back-sharp" size={35} color="black" /></Text> */}
+          <Ionicons name="arrow-back-sharp" size={35} color="black" />
+       </TouchableOpacity>
     <Image source={require('../../assets/logo.png')} style={styles.logo}/>
     <View style={styles.contentContainer}>
       {/* <Image source={require('../../assets/admin.png')} style={styles.adminlogo}/> */}
@@ -197,12 +204,12 @@ return (
 
       <Text style={styles.driverdetails}>Driver Details</Text>
 
-        <Text style={styles.name}><AntDesign name="user" size={20} color="black" /> - {name}</Text>
-        <Text style={styles.text}><FontAwesome name="drivers-license-o" size={19} color="black" /> - {plateNumber}</Text>
-        <Text style={styles.text}><AntDesign name="phone" size={20} color="black" /> - {contactNumber}</Text>
-        <Text style={styles.text}><AntDesign name="home" size={20} color="black" /> - {address}</Text>
+        <Text style={styles.name}><AntDesign name="user" size={20} color="black" /> • {name}</Text>
+        <Text style={styles.text}><FontAwesome name="drivers-license-o" size={19} color="black" /> • {plateNumber}</Text>
+        <Text style={styles.text}><AntDesign name="phone" size={20} color="black" /> • {contactNumber}</Text>
+        <Text style={styles.text}><AntDesign name="home" size={20} color="black" /> • {address}</Text>
         {registrationDate && (
-          <Text style={styles.text}><AntDesign name="calendar" size={20} color="black" /> - {registrationDate.toDateString()}</Text>
+          <Text style={styles.text}><AntDesign name="calendar" size={20} color="black" /> • {registrationDate.toDateString()}</Text>
         )}
 
       <View style={styles.buttonContainer}>
@@ -351,11 +358,14 @@ contentContainer: {
   alignItems: 'flex-start',
   justifyContent: 'space-between',
   backgroundColor: '#ffd702',
-  height: 300,
+  // height: 400,
   borderRadius: 25,
   marginTop: 10,
   padding: 10,
-  width: 300
+  paddingTop:30,
+  // width: 300,
+  width:"90%",
+  height:"60%"
 },
 textContainer: {
   flex: 1,
@@ -365,20 +375,27 @@ textContainer: {
 name: {
   fontSize: 22,
   fontWeight: 'bold',
-  marginBottom:5
+  marginBottom:15
 },
 text: {
   fontSize: 20,
-  marginBottom: 5
+  marginBottom: 15
 },
 date: {
   fontSize: 15
 },
+// logo: {
+//   width: 210,
+//   height: 210,
+//   marginBottom: 10,
+//   marginTop: -80
+// },
+
 logo: {
-  width: 210,
-  height: 210,
-  marginBottom: 10,
-  marginTop: -80
+  width: 160,
+  height: 160,
+  marginBottom: 60,
+  marginTop:-110,
 },
 adminlogo: {
   width: 120,
@@ -414,10 +431,16 @@ driverdetails:{
   marginTop:-35,
   fontSize:25,
   fontWeight:'bold',
-  marginBottom:15,
+  marginBottom:25,
   // justifyContent:'center',
   textAlign:'center'
-}
+},
+
+backButton: {
+  position: 'absolute',
+  top: 50,
+  left: 20,
+ },
 });
 
 
