@@ -1083,8 +1083,12 @@ const ReportsScreen = () => {
           {/* <Text style={styles.backButton}>asd<Ionicons name="arrow-back-sharp" size={35} color="black" /></Text> */}
           <Ionicons name="arrow-back-sharp" size={35} color="black" />
        </TouchableOpacity>
-      <Image source={require('../../assets/logoo.png')} style={styles.logo} />
-      <Text style={styles.reps}>Reports</Text>
+      {/* <Image source={require('../../assets/logoo.png')} style={styles.logo} /> */}
+
+      <TouchableOpacity onPress={() => navigation.navigate('Admin')}>
+        <Image source={require('../../assets/logoo.png')} style={styles.logo}/>
+      </TouchableOpacity>
+      <Text style={styles.reps}>Reports For</Text>
 
       <View style={styles.searchContainer}>
         <View style={styles.reportInputContainer}>
@@ -1147,7 +1151,10 @@ const ReportsScreen = () => {
             onPress={() => handleReportClick(report)}
           >
             <Text style={styles.reportName}>
-              {report.reported}    
+              {/* {report.reported}     */}
+              {/* {report.todaNumber ? `${report.reported} (${report.todaNumber})` : `${report.reported} (Passenger)`} */}
+              {report.todaNumber ? `${report.reported} (${report.todaNumber})` : `${report.reported} (P)`}
+
             </Text>
             <Text style={styles.reportTime}>
               {formatTimestamp(report.timeReported)}
@@ -1174,17 +1181,19 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 10,
+  
   },
   reportInputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    borderWidth: 1,
+    // borderWidth: 1,
     borderColor: 'gray',
     borderRadius: 20,
     height: 40,
     flex: 1,
     paddingHorizontal: 10,
-    backgroundColor: 'white'
+    // backgroundColor: 'white',
+    backgroundColor:'lightgray'
   },
   searchIcon: {
     marginRight: 10,
@@ -1198,10 +1207,10 @@ const styles = StyleSheet.create({
     width: '100%',
     backgroundColor: '#ffd702',
     borderRadius: 25,
-    paddingTop: 10,
+    paddingTop: 20,
     marginTop: 10,
-    paddingLeft: 20,
-    paddingRight: 20,
+    paddingLeft: 15,
+    paddingRight: 15,
     paddingBottom: 20,
     justifyContent: 'center', // Center the loading indicator vertically
     alignItems: 'center', // Center the loading indicator horizontally
@@ -1226,7 +1235,7 @@ const styles = StyleSheet.create({
     // backgroundColor: 'blue',
     position: 'absolute',
     left: 10, // Adjust this value as needed for spacing
-    top: 10, // Adjust this value as needed for vertical positioning
+    top: 11, // Adjust this value as needed for vertical positioning
   },
   
   reportTime: {
@@ -1235,7 +1244,7 @@ const styles = StyleSheet.create({
     // backgroundColor: 'blue',
     position: 'absolute',
     right: 10, // Adjust this value as needed for spacing
-    top: 10, // Adjust this value as needed for vertical positioning
+    top: 11, // Adjust this value as needed for vertical positioning
   },
   
   

@@ -300,33 +300,93 @@ const UserHistoryScreen = ({ route }) => {
     navigation.goBack(); // Navigate back to the previous screen
   };
 
+  const formatRideEndedTime = (rideEnded) => {
+    const options = {
+      month: 'short', // Short month name (e.g., "MAR")
+      day: '2-digit', // Two-digit day (e.g., "11")
+      year: 'numeric', // Full year (e.g., "2024")
+      hour: 'numeric', // Hour (e.g., "10")
+      minute: '2-digit', // Two-digit minute (e.g., "00")
+      hour12: true // 12-hour clock format
+    };
+    return rideEnded.toDate().toLocaleString(undefined, options);
+  };
+  
+
   return (
-    <View style={styles.container}>
+//     <View style={styles.container}>
+
+// <TouchableOpacity onPress={handleBack} style={styles.backButton}>
+//           <Ionicons name="arrow-back-sharp" size={35} color="black" />
+//        </TouchableOpacity>
+//       {/* <Image source={require('../../assets/logoo.png')} style={styles.logo}/> */}
+
+//       <TouchableOpacity onPress={() => navigation.navigate('Admin')}>
+//         <Image source={require('../../assets/logoo.png')} style={styles.logo}/>
+//       </TouchableOpacity>
+
+      
+//       <Text style={styles.title}>{name} Ride History</Text>
+//       <View style={styles.seccontainer}>
+//         {loading ? (
+//           // Render loading indicator if data is still loading
+//           <ActivityIndicator size="large" color="#0000ff" />
+//         ) : (
+//           // Render the history data if loading is complete
+//           <ScrollView style={styles.scrollView}>
+//             {userHistory.map((item) => (
+//               <TouchableOpacity key={item.id} onPress={() => handleHistoryItemClick(item.id)}>
+//                 <View style={styles.historyItem}>
+//                   {/* <Text>User ID: {item.id}</Text> */}
+//                   {/* <Text style={styles.text}>Ride Ended: {item.rideEnded && item.rideEnded.toDate().toLocaleString()}</Text> */}
+//                   <Text style={styles.text}>Ride Ended: {item.rideEnded && formatRideEndedTime(item.rideEnded)}</Text>
+
+//                 </View>
+//               </TouchableOpacity>
+//             ))}
+//           </ScrollView>
+//         )}
+//       </View>
+//     </View>
+<View style={styles.container}>
 
 <TouchableOpacity onPress={handleBack} style={styles.backButton}>
-          <Ionicons name="arrow-back-sharp" size={35} color="black" />
-       </TouchableOpacity>
-      <Image source={require('../../assets/logoo.png')} style={styles.logo}/>
-      <Text style={styles.title}>{name} Ride History</Text>
-      <View style={styles.seccontainer}>
-        {loading ? (
-          // Render loading indicator if data is still loading
-          <ActivityIndicator size="large" color="#0000ff" />
-        ) : (
-          // Render the history data if loading is complete
-          <ScrollView style={styles.scrollView}>
-            {userHistory.map((item) => (
-              <TouchableOpacity key={item.id} onPress={() => handleHistoryItemClick(item.id)}>
-                <View style={styles.historyItem}>
-                  {/* <Text>User ID: {item.id}</Text> */}
-                  <Text style={styles.text}>Ride Ended: {item.rideEnded && item.rideEnded.toDate().toLocaleString()}</Text>
-                </View>
-              </TouchableOpacity>
-            ))}
-          </ScrollView>
-        )}
-      </View>
-    </View>
+  <Ionicons name="arrow-back-sharp" size={35} color="black" />
+</TouchableOpacity>
+
+<TouchableOpacity onPress={() => navigation.navigate('Admin')}>
+  <Image source={require('../../assets/logoo.png')} style={styles.logo}/>
+</TouchableOpacity>
+
+<Text style={styles.title}>{name} Ride History</Text>
+
+<View style={styles.seccontainer}>
+  {loading ? (
+    // Render loading indicator if data is still loading
+    <ActivityIndicator size="large" color="#0000ff" />
+  ) : (
+    // Render the history data if loading is complete
+    <ScrollView style={styles.scrollView}>
+      {userHistory.length === 0 ? (
+        // Render "No History as of now" if there is no data
+        <Text style={styles.noHistoryText}>No History as of now</Text>
+      ) : (
+        // Render history items if there is data
+        userHistory.map((item) => (
+          <TouchableOpacity key={item.id} onPress={() => handleHistoryItemClick(item.id)}>
+            <View style={styles.historyItem}>
+              {/* <Text>User ID: {item.id}</Text> */}
+              {/* <Text style={styles.text}>Ride Ended: {item.rideEnded && item.rideEnded.toDate().toLocaleString()}</Text> */}
+              <Text style={styles.text}>Ride Ended: {item.rideEnded && formatRideEndedTime(item.rideEnded)}</Text>
+            </View>
+          </TouchableOpacity>
+        ))
+      )}
+    </ScrollView>
+  )}
+</View>
+</View>
+
   );
 };
 
@@ -386,6 +446,12 @@ const styles = StyleSheet.create({
     textAlign:'center',
     marginTop:3
    
+   },
+
+   noHistoryText:{
+    fontSize:20,
+    textAlign:'center',
+    marginTop:220
    }
 });
 

@@ -148,12 +148,16 @@ const UserHistoryDetailScreen = ({ route }) => {
   };
   return (
     <View style={styles.container}>
-      <Image source={require('../../assets/logoo.png')} style={styles.logo}/>
+      {/* <Image source={require('../../assets/logoo.png')} style={styles.logo}/> */}
+
+      <TouchableOpacity onPress={() => navigation.navigate('Admin')}>
+        <Image source={require('../../assets/logoo.png')} style={styles.logo}/>
+      </TouchableOpacity>
 
       <TouchableOpacity onPress={handleBack} style={styles.backButton}>
           <Ionicons name="arrow-back-sharp" size={35} color="black" />
        </TouchableOpacity>
-      <Text style={styles.title}>User History Detail</Text>
+      <Text style={styles.title}>History Detail</Text>
       <View style={styles.detailContainer}>
         {/* <Text>Item ID: {itemId}</Text> */}
         {itemData && (
@@ -212,8 +216,8 @@ const styles = StyleSheet.create({
   logo: {
     width: 160,
     height: 160,
-    marginBottom: 20,
-    marginTop:-90,
+    marginBottom: 60,
+    marginTop:-170,
   },
 
   backButton: {

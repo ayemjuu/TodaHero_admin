@@ -230,7 +230,7 @@
 
 // export default TodaDriverScreen;
 
-
+//working 3-13-24
 import React, { useState, useEffect } from 'react';
 import { View, Text, Image, StyleSheet, ScrollView, TouchableOpacity, TextInput, BackHandler, ActivityIndicator } from 'react-native';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
@@ -298,7 +298,11 @@ const TodaDriverScreen = () => {
           {/* <Text style={styles.backButton}>asd<Ionicons name="arrow-back-sharp" size={35} color="black" /></Text> */}
           <Ionicons name="arrow-back-sharp" size={35} color="black" />
        </TouchableOpacity>
-      <Image source={require('../../assets/logo.png')} style={styles.logo}/>
+      {/* <Image source={require('../../assets/logo.png')} style={styles.logo}/> */}
+      <TouchableOpacity onPress={() => navigation.navigate('Admin')}>
+        <Image source={require('../../assets/logo.png')} style={styles.logo}/>
+      </TouchableOpacity>
+
       <Text style={styles.todadriver}>Registered Drivers</Text>
 
       <View style={styles.searchContainer}>
@@ -469,3 +473,211 @@ const styles = StyleSheet.create({
 });
 
 export default TodaDriverScreen;
+
+
+
+
+// import React, { useState, useEffect } from 'react';
+// import { View, Text, Image, StyleSheet, ScrollView, TouchableOpacity, TextInput, BackHandler, ActivityIndicator } from 'react-native';
+// import { useNavigation, useFocusEffect } from '@react-navigation/native';
+// import { FontAwesome, AntDesign } from '@expo/vector-icons';
+// import firebase from 'firebase/compat';
+// import { Ionicons } from '@expo/vector-icons';
+
+// const TodaDriverScreen = () => {
+//   const navigation = useNavigation();
+//   const [users, setUsers] = useState([]);
+//   const [searchQuery, setSearchQuery] = useState('');
+//   const [isLoading, setIsLoading] = useState(true); // Add isLoading state
+
+//   useFocusEffect(
+//     React.useCallback(() => {
+//       const onBackPress = () => {
+//         navigation.navigate('Admin');
+//         return true;
+//       };
+
+//       BackHandler.addEventListener('hardwareBackPress', onBackPress);
+
+//       return () => {
+//         BackHandler.removeEventListener('hardwareBackPress', onBackPress);
+//       };
+//     }, [navigation]),
+//   );
+
+//   useEffect(() => {
+//     const fetchUserData = async () => {
+//       try {
+//         const usersCollection = firebase.firestore().collection('Drivers');
+//         const snapshot = await usersCollection.orderBy('registrationTime', 'desc').get();
+//         const fetchedUsers = snapshot.docs.map((doc) => doc.data());
+//         setUsers(fetchedUsers);
+//         setIsLoading(false); // Set isLoading to false when data is fetched
+//       } catch (error) {
+//         console.error('Error fetching user data:', error);
+//       }
+//     };
+
+//     fetchUserData();
+//   }, []);
+
+//   const handleUserClick = (user) => {
+//     navigation.navigate('TODA Drivers Details', {
+//       name: user.name,
+//       contactNumber: user.contactNumber,
+//       address: user.address,
+//       username: user.username,
+//       plateNumber: user.plateNumber
+//     });
+//   };
+
+//   const filteredUsers = users.filter((user) =>
+//     user.name.toLowerCase().includes(searchQuery.toLowerCase())
+//   );
+
+//   return (
+//     <View style={styles.container}>
+//       <TouchableOpacity onPress={() => navigation.navigate('Admin')} style={styles.homeButton}>
+//         <AntDesign name="home" size={24} color="black" />
+//       </TouchableOpacity>
+//       <TouchableOpacity onPress={() => navigation.navigate('Admin')} style={styles.backButton}>
+//         <Ionicons name="arrow-back-sharp" size={35} color="black" />
+//       </TouchableOpacity>
+//       <Image source={require('../../assets/logo.png')} style={styles.logo}/>
+//       <Text style={styles.todadriver}>Registered Drivers</Text>
+
+//       <View style={styles.searchContainer}>
+//         <View style={styles.searchInputContainer}>
+//           <FontAwesome name="search" size={20} color="black" style={styles.searchIcon} />
+//           <TextInput
+//             style={styles.searchInput}
+//             placeholder="Search name..."
+//             value={searchQuery}
+//             onChangeText={(text) => setSearchQuery(text)}
+//           />
+//         </View>
+//       </View>
+
+//       <View style={styles.userListContainer}>
+//         {isLoading ? (
+//           <ActivityIndicator size="large" color="#0000ff" />
+//         ) : (
+//           <ScrollView style={styles.userList}>
+//             {filteredUsers.map((user, index) => (
+//               <TouchableOpacity
+//                 key={index}
+//                 style={styles.userItem}
+//                 onPress={() => handleUserClick(user)}
+//               >
+//                 <View style={styles.userRow}>
+//                   <Image
+//                     source={require('../../assets/tricycle.png')}
+//                     style={styles.userImage}
+//                   />
+//                   <Text style={styles.userName}>
+//                     {user.name.length > 20 ? user.name.slice(0, 20) + "..." : user.name}
+//                   </Text>
+//                 </View>
+//               </TouchableOpacity>
+//             ))}
+//           </ScrollView>
+//         )}
+//       </View>
+//     </View>
+//   );
+// };
+
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     padding: 30,
+//     justifyContent: 'center',
+//     alignItems: 'center',
+//     backgroundColor: '#ffffff',
+//   },
+//   searchContainer: {
+//     flexDirection: 'row',
+//     alignItems: 'center',
+//     marginBottom: 10,
+//     marginTop: -30
+//   },
+//   searchInputContainer: {
+//     flexDirection: 'row',
+//     alignItems: 'center',
+//     borderRadius: 20,
+//     height: 40,
+//     flex: 1,
+//     paddingHorizontal: 10,
+//     backgroundColor: 'lightgray'
+//   },
+//   searchIcon: {
+//     marginRight: 10,
+//   },
+//   searchInput: {
+//     flex: 1,
+//     height: '100%',
+//   },
+//   userListContainer: {
+//     flex: 1,
+//     width: '100%',
+//     backgroundColor: '#ffd702',
+//     borderRadius: 25,
+//     paddingTop: 20,
+//     marginTop: 10,
+//     justifyContent: 'center',
+//     alignItems: 'center',
+//     paddingLeft: 20,
+//     paddingRight: 20,
+//   },
+//   userList: {
+//     flex: 1,
+//     width: '100%',
+//   },
+//   userItem: {
+//     marginBottom: 10,
+//     padding: 10,
+//     borderWidth: 1,
+//     borderColor: 'gray',
+//     borderRadius: 5,
+//     width: '100%',
+//     height: 48,
+//     backgroundColor: "#ffff",
+//   },
+//   userName: {
+//     fontSize: 16,
+//     color: 'black',
+//   },
+//   logo: {
+//     width: 160,
+//     height: 160,
+//     marginBottom: -20,
+//     marginTop: -40,
+//   },
+//   todadriver: {
+//     fontSize: 30,
+//     fontWeight: 'bold',
+//     marginBottom: 40,
+//   },
+//   userImage: {
+//     width: 35,
+//     height: 35,
+//   },
+//   userRow: {
+//     flexDirection: 'row',
+//     alignItems: 'center',
+//     gap: 10,
+//     marginTop: -4
+//   },
+//   backButton: {
+//     position: 'absolute',
+//     top: 50,
+//     left: 20,
+//   },
+//   homeButton: {
+//     position: 'absolute',
+//     top: 50,
+//     right: 20,
+//   },
+// });
+
+// export default TodaDriverScreen;

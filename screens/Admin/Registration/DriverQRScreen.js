@@ -141,13 +141,13 @@ const styles = StyleSheet.create({
     height:100
   },
   button:{
-  backgroundColor:'lightblue',
+  backgroundColor:'white',
   height:50,
   width:100,
   marginTop:190,
   marginBottom:50,
   textAlign:'center',
-  borderRadius:10,
+  borderRadius:50,
   justifyContent: 'center', // Center content horizontally
   alignItems: 'center', // Center content vertically
    

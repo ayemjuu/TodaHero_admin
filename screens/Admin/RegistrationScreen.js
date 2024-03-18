@@ -50,7 +50,11 @@ const RegistrationScreen = () => {
           {/* <Text style={styles.backButton}>asd<Ionicons name="arrow-back-sharp" size={35} color="black" /></Text> */}
           <Ionicons name="arrow-back-sharp" size={35} color="black" />
        </TouchableOpacity>
-      <Image source={require('../../assets/logo.png')} style={styles.logo}/>
+      {/* <Image source={require('../../assets/logo.png')} style={styles.logo}/> */}
+
+      <TouchableOpacity onPress={() => navigation.navigate('Admin')}>
+        <Image source={require('../../assets/logoo.png')} style={styles.logo}/>
+      </TouchableOpacity>
 
       <Text style={styles.title}>REGISTRATION</Text>
       <View style={styles.buttonContainer}>

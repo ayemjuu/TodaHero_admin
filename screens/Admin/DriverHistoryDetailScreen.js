@@ -501,8 +501,12 @@ const parseDateFromString = (dateString) => {
         <Ionicons name="arrow-back-sharp" size={35} color="black" />
       </TouchableOpacity>
 
-      <Image source={require('../../assets/logoo.png')} style={styles.logo}/>
-      <Text style={styles.title}>Driver History Detail</Text>
+      {/* <Image source={require('../../assets/logoo.png')} style={styles.logo}/> */}
+      <TouchableOpacity onPress={() => navigation.navigate('Admin')}>
+        <Image source={require('../../assets/logoo.png')} style={styles.logo}/>
+      </TouchableOpacity>
+
+      <Text style={styles.title}>History Detail</Text>
       <View style={styles.detailContainer}>
         {itemData && (
           <View>
@@ -515,6 +519,15 @@ const parseDateFromString = (dateString) => {
             {/* <Text style={styles.texts}>Accepted: {formatDate(itemData.timeAccepted)}</Text> */}
             <Text style={styles.texts}>Ended: {formatDate(itemData.rideEnded)}</Text>
 
+
+            {/* {itemData.report && (
+              <Text style={styles.texts}>This driver is reported as: {itemData.report}</Text>
+            )} */}
+
+            
+{/* {itemData.report && (
+              <Text style={styles.texts}>The driver did'nt attend</Text>
+            )} */}
 
 
 
@@ -557,8 +570,8 @@ const styles = StyleSheet.create({
   logo: {
     width: 160,
     height: 160,
-    marginBottom: 10,
-    marginTop: -100,
+    marginBottom: 60,
+    marginTop: -170,
   },
   backButton: {
     position: 'absolute',

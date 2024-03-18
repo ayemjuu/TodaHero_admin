@@ -343,7 +343,12 @@ const ReportDetailScreen = ({ route }) => {
           {/* <Text style={styles.backButton}>asd<Ionicons name="arrow-back-sharp" size={35} color="black" /></Text> */}
           <Ionicons name="arrow-back-sharp" size={35} color="black" />
        </TouchableOpacity>
-      <Image source={require('../../assets/logoo.png')} style={styles.logo}/>
+      {/* <Image source={require('../../assets/logoo.png')} style={styles.logo}/> */}
+
+      <TouchableOpacity onPress={() => navigation.navigate('Admin')}>
+        <Image source={require('../../assets/logoo.png')} style={styles.logo}/>
+      </TouchableOpacity>
+
       <View style={styles.seccontainer}>
         <Text style={styles.text}>Report Details</Text>
 
@@ -354,10 +359,12 @@ const ReportDetailScreen = ({ route }) => {
         ) : (
           <>
             <Text>Report For: {report?.reported}</Text>
+            {report?.todaNumber && <Text>Toda Number: {report.todaNumber}</Text>}
             <View style={styles.reportContainer}>
               <Text>Report: {report?.report}</Text>
             </View>
             <Text>Reported By: {report?.reportedBy}</Text>
+            {report?.todaPlateNumber && <Text>Toda Number: {report.todaPlateNumber}</Text>}
             {/* <Text>Time Reported: {report?.timeReported.toDate().toLocaleString()}</Text> */}
             <Text>Time Reported: {formatTime(report?.timeReported)}</Text>
 
@@ -378,7 +385,7 @@ const styles = StyleSheet.create({
   },
   seccontainer: {
     backgroundColor: '#ffd702',
-    height: '60%',
+    height: '50%',
     width: '80%',
     marginTop: -80,
     padding:20,
@@ -393,8 +400,8 @@ const styles = StyleSheet.create({
   logo: {
     width: 160,
     height: 160,
-    marginBottom: 130,
-    marginTop: -130,
+    marginBottom: 170,
+    marginTop: -170,
   },
   reportContainer:{
     marginTop:20,

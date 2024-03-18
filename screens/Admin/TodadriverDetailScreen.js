@@ -197,7 +197,13 @@ return (
           {/* <Text style={styles.backButton}>asd<Ionicons name="arrow-back-sharp" size={35} color="black" /></Text> */}
           <Ionicons name="arrow-back-sharp" size={35} color="black" />
        </TouchableOpacity>
-    <Image source={require('../../assets/logo.png')} style={styles.logo}/>
+    {/* <Image source={require('../../assets/logo.png')} style={styles.logo}/> */}
+
+
+    <TouchableOpacity onPress={() => navigation.navigate('Admin')}>
+      <Image source={require('../../assets/logo.png')} style={styles.logo}/>
+    </TouchableOpacity>
+
     <View style={styles.contentContainer}>
       {/* <Image source={require('../../assets/admin.png')} style={styles.adminlogo}/> */}
       <View style={styles.textContainer}>
@@ -365,7 +371,7 @@ contentContainer: {
   paddingTop:30,
   // width: 300,
   width:"90%",
-  height:"60%"
+  height:"55%"
 },
 textContainer: {
   flex: 1,
@@ -395,7 +401,7 @@ logo: {
   width: 160,
   height: 160,
   marginBottom: 60,
-  marginTop:-110,
+  marginTop:-150,
 },
 adminlogo: {
   width: 120,
@@ -423,7 +429,7 @@ buttonContainer:{
 flexDirection:'row',
 justifyContent:'center',
 alignContent:'center',
-gap:5,
+gap:20,
 
 },
 
