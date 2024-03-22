@@ -289,7 +289,7 @@ const UserDetailsScreen = ({ route }) => {
   useEffect(() => {
     const fetchRegistrationDate = async () => {
       try {
-        const userRef = firebase.firestore().collection('Users').where('username', '==', username);
+        const userRef = firebase.firestore().collection('Users').where('name', '==', name);
         const snapshot = await userRef.get();
         if (!snapshot.empty) {
           snapshot.forEach((doc) => {
@@ -305,7 +305,7 @@ const UserDetailsScreen = ({ route }) => {
     };
 
     fetchRegistrationDate();
-  }, [username]);
+  }, [name]);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -340,7 +340,7 @@ const UserDetailsScreen = ({ route }) => {
           onPress: async () => {
             try {
               setLoading(true);
-              const userRef = firebase.firestore().collection('Users').where('username', '==', username);
+              const userRef = firebase.firestore().collection('Users').where('name', '==', name);
               const snapshot = await userRef.get();
               if (!snapshot.empty) {
                 snapshot.forEach(async (doc) => {

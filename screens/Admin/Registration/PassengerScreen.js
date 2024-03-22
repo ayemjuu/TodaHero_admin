@@ -16,21 +16,25 @@ const PassengerScreen = ({ navigation }) => {
     const [name, setName] = useState('');
     const [contactNumber, setContactNumber] = useState('');
     const [address, setAddress] = useState('');
-    const [username, setUsername] = useState('');
+    // const [username, setUsername] = useState('');
     
 
     const [error, setError] = useState('');
     const [nameError, setNameError] = useState('');
     const [contactNumberError, setContactNumberError] = useState('');
     const [addressError, setAddressError] = useState('');
-    const [usernameError, setUsernameError] = useState('');
+    // const [usernameError, setUsernameError] = useState('');
 
     const [isContactNumberRegistered, setIsContactNumberRegistered] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    const isFormEmpty = !name.trim() || !contactNumber.trim() || !address.trim() || !username.trim();
+    // const isFormEmpty = !name.trim() || !contactNumber.trim() || !address.trim() || !username.trim();
+    const isFormEmpty = !name.trim() || !contactNumber.trim() || !address.trim();
 
 
-    const saveUserDataToFirestore = async (name, contactNumber, address, username) => {
+
+    // const saveUserDataToFirestore = async (name, contactNumber, address, username) => {
+    const saveUserDataToFirestore = async (name, contactNumber, address) => {
+
       try {
         setIsLoading(true);
         const usersCollection = firebase.firestore().collection('Users');
@@ -52,7 +56,7 @@ const PassengerScreen = ({ navigation }) => {
           contactNumber: "+639" + contactNumber,
           // contactNumber,
           address,
-          username,
+          // username,
           registrationTime: firebase.firestore.FieldValue.serverTimestamp(),
         });
     
@@ -75,7 +79,9 @@ const PassengerScreen = ({ navigation }) => {
 
 
    const goToRegistered = async () => {
-    if (!name || !contactNumber || !address || !username) {
+    // if (!name || !contactNumber || !address || !username) {
+    if (!name || !contactNumber || !address) {
+
         // Handle empty fields
         if (!name) {
             setNameError('Must be filled');
@@ -86,9 +92,9 @@ const PassengerScreen = ({ navigation }) => {
         if (!address) {
             setAddressError('Must be filled');
         }
-        if (!username) {
-            setUsernameError('Must be filled');
-        }
+        // if (!username) {
+        //     setUsernameError('Must be filled');
+        // }
         return;
     }
 
@@ -96,7 +102,7 @@ const PassengerScreen = ({ navigation }) => {
     setNameError('');
     setContactNumberError('');
     setAddressError('');
-    setUsernameError('');
+    // setUsernameError('');
     setError('');
 
     try {
@@ -113,7 +119,9 @@ const PassengerScreen = ({ navigation }) => {
 
         setIsLoading(true);
         // Call the function when navigating to the registered screen
-        await saveUserDataToFirestore(name, contactNumber, address, username);
+        // await saveUserDataToFirestore(name, contactNumber, address, username);
+        await saveUserDataToFirestore(name, contactNumber, address);
+
 
         // Registration success
         console.log('Registered!');
@@ -309,7 +317,7 @@ const PassengerScreen = ({ navigation }) => {
             />
             {/* {addressError && <Text style={styles.errorText}>{addressError}</Text>} */}
 
-
+{/* 
             <Text style={styles.title}>Username: {usernameError && <Text style={styles.errorText}>{usernameError}</Text>}
             
             </Text>
@@ -324,7 +332,7 @@ const PassengerScreen = ({ navigation }) => {
                     setUsernameError('');
                 }}
                 
-            />
+            /> */}
             {/* {usernameError && <Text style={styles.errorText}>{usernameError}</Text>} */}
 
 

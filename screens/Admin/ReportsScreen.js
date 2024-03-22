@@ -944,6 +944,10 @@ import firebase from 'firebase/compat';
 import { FontAwesome } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 
+import { printToFileAsync } from 'expo-print';
+import { shareAsync } from 'expo-sharing';
+import * as FileSystem from 'expo-file-system';
+
 
 
 const ReportsScreen = () => {
@@ -951,6 +955,8 @@ const ReportsScreen = () => {
   const [reports, setReports] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [isLoading, setIsLoading] = useState(true);
+
+  const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -967,53 +973,6 @@ const ReportsScreen = () => {
     }, [navigation]),
   );
 
-  // const formatTimestamp = (timestamp) => {
-  //   const date = timestamp.toDate();
-  //   const today = new Date();
-  //   const yesterday = new Date(today);
-  //   yesterday.setDate(yesterday.getDate() - 1);
-
-  //   if (date.toDateString() === today.toDateString()) {
-  //     // Today
-  //     return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-  //   } else if (date.toDateString() === yesterday.toDateString()) {
-  //     // Yesterday
-  //     return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-  //   } else {
-  //     // Other days
-  //     return date.toLocaleDateString('en-US', { weekday: 'short' });
-  //   }
-  // };
-
-  
-  
-
-
-
-  
-
-
-  // const formatTimestamp = (timestamp) => {
-  //   const date = timestamp.toDate();
-  //   const today = new Date();
-  //   const yesterday = new Date(today);
-  //   yesterday.setDate(yesterday.getDate() - 1);
-  
-  //   if (date.toDateString() === today.toDateString()) {
-  //     // Today
-  //     return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-  //   } else if (date.toDateString() === yesterday.toDateString()) {
-  //     // Yesterday
-  //     return 'Yesterday';
-  //   } else if (today.getTime() - date.getTime() < 7 * 24 * 60 * 60 * 1000) {
-  //     // Last 7 days
-  //     const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-  //     return dayNames[date.getDay()];
-  //   } else {
-  //     // Last week or earlier
-  //     return date.toLocaleDateString('en-US');
-  //   }
-  // };
 
 
   const formatTimestamp = (timestamp) => {
@@ -1068,13 +1027,187 @@ const ReportsScreen = () => {
     });
   };
 
-  // const filteredReports = reports.filter((report) =>
-  //   report.reported.toLowerCase().includes(searchQuery.toLowerCase())
-  // );
+
 
   const filteredReports = reports.filter((report) =>
   report.reported && report.reported.toLowerCase().includes(searchQuery.toLowerCase())
 );
+
+
+
+
+const [reportData, setReportData] = useState([]);
+
+useEffect(() => {
+  const fetchReportData = async () => {
+    try {
+      const reportCollection = firebase.firestore().collection('Report');
+      const snapshot = await reportCollection.get();
+      const data = snapshot.docs.map(doc => doc.data());
+      setReportData(data);
+    } catch (error) {
+      console.error('Error fetching report data:', error);
+    }
+  };
+
+  fetchReportData();
+}, []);
+
+const formatTimestampp = (timestamp) => {
+  return timestamp.toDate().toLocaleString(); // Convert timestamp to a human-readable format
+};
+
+const formatDate = (timestamp) => {
+  const date = timestamp.toDate();
+  const month = date.toLocaleString('default', { month: 'long' });
+  const day = date.getDate();
+  const year = date.getFullYear();
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+  const seconds = date.getSeconds();
+
+  return `${month} ${day}, ${year}, ${hours}:${minutes}:${seconds}`;
+};
+
+
+
+
+const generatePdf = async () => {
+  try {
+    setIsGeneratingPdf(true);
+
+    // Sort report data by date
+    const sortedReportData = [...reportData].sort((a, b) => {
+      // Ensure timeReported is defined before accessing toDate method
+      if (a.timeReported && b.timeReported) {
+        return a.timeReported.toDate() - b.timeReported.toDate();
+      } else {
+        return 0; // Handle case where timeReported is undefined for some reports
+      }
+    });
+
+    // Group report data by month
+    const groupedByMonth = {};
+    sortedReportData.forEach(report => {
+      if (report.timeReported) {
+        const timestamp = report.timeReported.toDate();
+        const month = timestamp.getMonth(); // Get the month (0-indexed)
+        if (!groupedByMonth[month]) {
+          groupedByMonth[month] = [];
+        }
+        groupedByMonth[month].push(report);
+      }
+    });
+
+    // Generate HTML for each month
+    let html = '';
+    for (const month in groupedByMonth) {
+ 
+
+        html += `
+        <div>
+          <img src="https://i.pinimg.com/originals/aa/1f/d9/aa1fd9f5a8a72d47f39914f7df002c5e.png" style="position: absolute; top: -65px; right: 20px; width: 200px; height: auto;">
+          <img src="https://i.pinimg.com/originals/82/2a/5b/822a5ba1adb67e6bf5fd24b3b30c633f.png" style="position: absolute; top: -45px; left: 10px; width: 135px; height: auto;">
+          <img src="https://i.pinimg.com/originals/20/1c/6e/201c6e09f233b23ec74322f444cfecb1.png" style="position: absolute; top: -45px; left: 120px; width: 135px; height: auto;">
+
+        </div>
+          <h2>${new Date(0, month).toLocaleString('default', { month: 'long' })}</h2>
+          <table style="border-collapse: collapse; width: 100%;">
+            <tr>
+              <th style="border: 1px solid black; padding: 8px;">Report</th>
+              <th style="border: 1px solid black; padding: 8px;">Reported By</th>
+              <th style="border: 1px solid black; padding: 8px;">Reported</th>
+              <th style="border: 1px solid black; padding: 8px;">Time Reported</th>
+            </tr>
+            ${groupedByMonth[month].map(report => `
+            <tr>
+            <td style="border: 1px solid black; padding: 8px;">${report.report}</td>
+            <td style="border: 1px solid black; padding: 8px;">
+              ${report.todaPlateNumber ? `${report.reportedBy} (${report.todaPlateNumber})` : report.reportedBy}
+            </td>
+            <td style="border: 1px solid black; padding: 8px;">
+              ${report.todaNumber ? `${report.reported} (${report.todaNumber})` : report.reported}
+            </td>
+            <td style="border: 1px solid black; padding: 8px;">${report.timeReported ? formatDate(report.timeReported) : ''}</td>
+          </tr>
+            `).join('')}
+          </table>
+        `;
+
+    }
+
+    // Wrap HTML in main HTML structure with margins and landscape orientation
+    html = `
+      <html>
+        <head>
+          <style>
+            @page {
+              size: landscape;
+              margin: 0.5in;
+            }
+            h4 {
+              margin-bottom: 5px; 
+            }
+            .header h4 {
+              margin: 0; 
+            }
+          </style>
+        </head>
+        <body style="text-align: center">
+           <div class="header">
+           <div> </div>
+              <h4>BULACAN STATE UNIVERSITY - MENESES CAMPUS</h4>
+              <h4>COMPUTER ENGINEERING DEPARTMENT</h4>
+              <h4>TODAHERO REPORT HISTORY</h4>
+            </div>
+          ${html}
+        </body>
+      </html>
+    `;
+
+    // // Generate PDF and share
+    // const file = await printToFileAsync({
+    //   html: html,
+    //   base64: false,
+    // });
+
+    
+
+    // await shareAsync(file.uri);
+
+    // setIsGeneratingPdf(false);
+
+
+    const tempFile = await printToFileAsync({
+      html: html,
+      base64: false,
+    });
+
+    // Define new file name
+    const fileName = 'Todahero_Report_History.pdf';
+
+    // Move temporary file to new location with desired file name
+    const newPath = `${FileSystem.documentDirectory}${fileName}`;
+    await FileSystem.moveAsync({
+      from: tempFile.uri,
+      to: newPath,
+    });
+
+    // Share the new file with desired file name
+    await shareAsync(newPath, {
+      mimeType: 'application/pdf',
+      dialogTitle: 'Share Todahero Report History',
+      UTI: 'com.adobe.pdf',
+      filename: fileName,
+    });
+
+    setIsGeneratingPdf(false);
+  } catch (error) {
+    console.error('Error generating PDF:', error);
+    setIsGeneratingPdf(false);
+  }
+};
+
 
 
   return (
@@ -1102,41 +1235,6 @@ const ReportsScreen = () => {
         </View>
       </View>
 
-      {/* <View style={styles.reportListContainer}>
-        {isLoading ? (
-          <ActivityIndicator size="large" color="#0000ff" style={styles.loadingIndicator} />
-        ) : (
-          <ScrollView style={styles.reportList}>
-            {filteredReports.map((report, index) => (
-              <TouchableOpacity
-                key={index}
-                style={styles.reportItem}
-                onPress={() => handleReportClick(report)}
-              >
-                <Text style={styles.reportName}>
-               
-                  {report.reported}    
-             
-                
-                
-                </Text>
-                <Text style={styles.reportTime}>
-                
-              
-                  {formatTimestamp(report.timeReported)}
-                
-                
-                </Text>
-              
-
-
- 
-              </TouchableOpacity>
-            ))}
-          </ScrollView>
-        )}
-      </View> */}
-{/* nakaarrange */}
 <View style={styles.reportListContainer}>
   {isLoading ? (
     <ActivityIndicator size="large" color="#0000ff" style={styles.loadingIndicator} />
@@ -1164,7 +1262,17 @@ const ReportsScreen = () => {
     </ScrollView>
   )}
 </View>
+{/* <TouchableOpacity style={styles.downloadButton} onPress={generatePdf} >
 
+<Text style={styles.downloadText}>Download</Text>
+</TouchableOpacity> */}
+ <TouchableOpacity style={styles.downloadButton} onPress={generatePdf} disabled={isGeneratingPdf}>
+      {isGeneratingPdf ? (
+        <ActivityIndicator color="white" />
+      ) : (
+        <Text style={styles.downloadText}>Download</Text>
+      )}
+    </TouchableOpacity>
     </View>
   );
 };
@@ -1277,6 +1385,18 @@ const styles = StyleSheet.create({
     top: 50,
     left: 20,
    },
+   downloadButton: {
+    backgroundColor: '#007bff',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+    marginTop: 20,
+  },
+  downloadText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
 
 
 });
